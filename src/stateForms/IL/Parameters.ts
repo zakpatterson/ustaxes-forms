@@ -1,4 +1,4 @@
-import { FilingStatus } from '../../redux/data'
+import { FilingStatus } from 'ustaxes-forms/data'
 
 const parameters = {
   exemptions: {

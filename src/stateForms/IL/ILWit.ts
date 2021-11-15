@@ -1,7 +1,7 @@
 import Form, { FormMethods } from '../Form'
 import F1040 from '../../irsForms/F1040'
-import { Field } from 'ustaxes/pdfFiller'
-import { IncomeW2, Information, PersonRole, State } from '../../redux/data'
+import { Field } from 'ustaxes-forms/pdfFiller'
+import { IncomeW2, Information, PersonRole, State } from 'ustaxes-forms/data'
 import _ from 'lodash'
 
 type FormType =

@@ -6,8 +6,8 @@ import {
   PersonRole,
   PlanType1099,
   Information
-} from 'ustaxes/redux/data'
-import federalBrackets from 'ustaxes/data/federal'
+} from '../data'
+import federalBrackets from '../data/federal'
 import F4972 from './F4972'
 import F5695 from './F5695'
 import F8814 from './F8814'
@@ -37,7 +37,7 @@ import SocialSecurityBenefitsWorksheet from './worksheets/SocialSecurityBenefits
 import F4797 from './F4797'
 import StudentLoanInterestWorksheet from './worksheets/StudentLoanInterestWorksheet'
 import F1040V from './F1040v'
-import InformationMethods from 'ustaxes/redux/methods'
+import InformationMethods from '../data/methods'
 import _ from 'lodash'
 import F8960, { needsF8960 } from './F8960'
 

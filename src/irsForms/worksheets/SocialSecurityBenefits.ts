@@ -1,8 +1,8 @@
-import { FilingStatus, TaxPayer, Information } from '../../redux/data'
+import { FilingStatus, TaxPayer, Information } from 'ustaxes-forms/data'
 import F1040 from '../F1040'
 import { sumFields } from '../util'
-import { SSBenefits } from 'ustaxes/data/federal'
-import InformationMethods from 'ustaxes/redux/methods'
+import { SSBenefits } from 'ustaxes-forms/data/federal'
+import InformationMethods from 'ustaxes-forms/data/methods'
 
 export default class SocialSecurityBenefitsWorksheet {
   state: InformationMethods

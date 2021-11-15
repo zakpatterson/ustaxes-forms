@@ -1,8 +1,8 @@
 import Form from '../Form'
 import F1040 from '../../irsForms/F1040'
 import { IL1040 } from './IL1040'
-import { Field } from 'ustaxes/pdfFiller'
-import { Information, State } from '../../redux/data'
+import { Field } from 'ustaxes-forms/pdfFiller'
+import { Information, State } from 'ustaxes-forms/data'
 
 export default class IL1040V extends Form {
   info: Information

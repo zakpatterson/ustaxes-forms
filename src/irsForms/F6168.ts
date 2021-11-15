@@ -1,4 +1,4 @@
-import { TaxPayer } from 'ustaxes/redux/data'
+import { TaxPayer } from 'ustaxes-forms/data'
 import ScheduleE from './ScheduleE'
 
 /**

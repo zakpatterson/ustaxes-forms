@@ -1,5 +1,5 @@
-import { Field } from 'ustaxes/pdfFiller'
-import { TaxPayer } from 'ustaxes/redux/data'
+import { Field } from 'ustaxes-forms/pdfFiller'
+import { TaxPayer } from 'ustaxes-forms/data'
 import Form, { FormTag } from './Form'
 
 export default class F8936 extends Form {

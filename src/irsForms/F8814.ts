@@ -1,7 +1,7 @@
-import { TaxPayer } from 'ustaxes/redux/data'
-import log from 'ustaxes/log'
+import { TaxPayer } from 'ustaxes-forms/data'
+import log from 'ustaxes-forms/log'
 import Form, { FormTag } from './Form'
-import { Field } from 'ustaxes/pdfFiller'
+import { Field } from 'ustaxes-forms/pdfFiller'
 
 const unimplemented = (message: string): void =>
   log.warn(`[Form 8814] unimplemented ${message}`)
