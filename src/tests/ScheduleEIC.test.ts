@@ -2,7 +2,7 @@
 
 import fc from 'fast-check'
 import * as arbitraries from './arbitraries'
-import * as federal from 'ustaxes-forms/data/federal'
+import * as federal from '../data/federal'
 
 beforeAll(async () => jest.spyOn(console, 'warn').mockImplementation(() => {}))
 

@@ -1,9 +1,9 @@
-import { Information } from 'ustaxes-forms/data'
-import TaxPayer from 'ustaxes-forms/data/TaxPayer'
+import { Information } from '../data'
+import TaxPayer from '../data/TaxPayer'
 import Form, { FormTag } from './Form'
 import ScheduleE from './ScheduleE'
 import { sumFields } from './util'
-import log from 'ustaxes-forms/log'
+import log from '../log'
 import F1040 from './F1040'
 
 const unimplemented = (message: string): void =>

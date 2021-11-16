@@ -4,13 +4,13 @@ import {
   Property,
   PropertyType,
   PropertyExpenseTypeName
-} from 'ustaxes-forms/data'
+} from '../data'
 import Form, { FormTag } from './Form'
-import TaxPayer from 'ustaxes-forms/data/TaxPayer'
+import TaxPayer from '../data/TaxPayer'
 import F6168 from './F6168'
 import F8582 from './F8582'
 import { displayNegPos, displayNumber, sumFields } from './util'
-import log from 'ustaxes-forms/log'
+import log from '../log'
 import _ from 'lodash'
 
 type Cell = number | undefined

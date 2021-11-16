@@ -1,8 +1,8 @@
-import Form from 'ustaxes-forms/stateForms/Form'
-import F1040 from 'ustaxes-forms/irsForms/F1040'
-import { Field } from 'ustaxes-forms/pdfFiller'
+import Form from '../../stateForms/Form'
+import F1040 from '../../irsForms/F1040'
+import { Field } from '../../pdfFiller'
 import { displayNumber } from '../../irsForms/util'
-import { Dependent, Information, State } from 'ustaxes-forms/data'
+import { Dependent, Information, State } from '../../data'
 import parameters from './Parameters'
 
 export class IL1040scheduleileeic extends Form {

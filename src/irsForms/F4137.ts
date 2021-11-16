@@ -1,4 +1,4 @@
-import { TaxPayer } from 'ustaxes-forms/data'
+import { TaxPayer } from '../data'
 
 // TODO
 export default class F4137 {

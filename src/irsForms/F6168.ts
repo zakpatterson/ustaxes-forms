@@ -1,4 +1,4 @@
-import { TaxPayer } from 'ustaxes-forms/data'
+import { TaxPayer } from '../data'
 import ScheduleE from './ScheduleE'
 
 /**

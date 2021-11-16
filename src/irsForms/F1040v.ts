@@ -1,4 +1,4 @@
-import { Information } from 'ustaxes-forms/data'
+import { Information } from '../data'
 import F1040 from './F1040'
 import Form, { FormTag } from './Form'
 

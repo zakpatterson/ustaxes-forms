@@ -1,7 +1,7 @@
 import { fail } from 'assert'
 import { PDFCheckBox, PDFField, PDFTextField } from 'pdf-lib'
-import { fillPDF } from 'ustaxes-forms/pdfFiller/fillPdf'
-import { localPDFs } from 'ustaxes-forms/tests/common/LocalForms'
+import { fillPDF } from '../../pdfFiller/fillPdf'
+import { localPDFs } from '../../tests/common/LocalForms'
 
 /* eslint-disable @typescript-eslint/no-empty-function */
 beforeAll(() => {

@@ -1,8 +1,8 @@
-import { Information } from 'ustaxes-forms/data'
+import { Information } from '../data'
 import { computeField, sumFields } from './util'
-import TaxPayer from 'ustaxes-forms/data/TaxPayer'
+import TaxPayer from '../data/TaxPayer'
 import Form, { FormTag } from './Form'
-import { netInvestmentIncomeTax } from 'ustaxes-forms/data/federal'
+import { netInvestmentIncomeTax } from '../data/federal'
 import F1040 from './F1040'
 
 export const needsF8960 = (state: Information): boolean => {

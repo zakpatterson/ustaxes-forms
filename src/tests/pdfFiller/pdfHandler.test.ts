@@ -1,9 +1,9 @@
 import * as fc from 'fast-check'
 import { PDFDocument, PDFField, PDFTextField } from 'pdf-lib'
-import { create1040PDFs } from 'ustaxes-forms/irsForms'
-import * as arbitraries from 'ustaxes-forms/tests/arbitraries'
-import { Information } from 'ustaxes-forms/data'
-import { localPDFs } from 'ustaxes-forms/tests/common/LocalForms'
+import { create1040PDFs } from '../../irsForms'
+import * as arbitraries from '../../tests/arbitraries'
+import { Information } from '../../data'
+import { localPDFs } from '../../tests/common/LocalForms'
 
 jest.setTimeout(120 * 1000)
 

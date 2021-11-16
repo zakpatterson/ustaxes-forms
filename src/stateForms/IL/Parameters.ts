@@ -1,4 +1,4 @@
-import { FilingStatus } from 'ustaxes-forms/data'
+import { FilingStatus } from '../../data'
 
 const parameters = {
   exemptions: {

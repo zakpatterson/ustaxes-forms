@@ -1,5 +1,5 @@
-import { Field } from 'ustaxes-forms/pdfFiller'
-import { TaxPayer } from 'ustaxes-forms/data'
+import { Field } from '../pdfFiller'
+import { TaxPayer } from '../data'
 import Form, { FormTag } from './Form'
 
 export default class ScheduleR extends Form {

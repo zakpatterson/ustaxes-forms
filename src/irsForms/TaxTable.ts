@@ -1,5 +1,5 @@
-import federalBrackets from 'ustaxes-forms/data/federal'
-import { FilingStatus } from 'ustaxes-forms/data'
+import federalBrackets from '../data/federal'
+import { FilingStatus } from '../data'
 import _ from 'lodash'
 
 const computeTax =

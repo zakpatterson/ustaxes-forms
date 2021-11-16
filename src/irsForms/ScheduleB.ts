@@ -1,6 +1,6 @@
-import { Information } from 'ustaxes-forms/data'
-import InformationMethods from 'ustaxes-forms/data/methods'
-import TaxPayer from 'ustaxes-forms/data/TaxPayer'
+import { Information } from '../data'
+import InformationMethods from '../data/methods'
+import TaxPayer from '../data/TaxPayer'
 import Form, { FormTag } from './Form'
 import { computeField, displayNumber, sumFields } from './util'
 
