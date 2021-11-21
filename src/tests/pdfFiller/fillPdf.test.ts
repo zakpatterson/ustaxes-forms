@@ -7,6 +7,7 @@ import { localPDFs } from '../../tests/common/LocalForms'
 beforeAll(() => {
   // PDF-lib creates console warning on every creation due to no XFA support
   jest.spyOn(console, 'warn').mockImplementation(() => {})
+  jest.spyOn(console, 'error').mockImplementation(() => {})
 })
 
 const expectCheckbox = (field: PDFField): jest.JestMatchers<boolean> =>
