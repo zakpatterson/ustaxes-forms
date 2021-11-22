@@ -35,7 +35,7 @@ const federalBrackets: FederalBrackets = {
         deductions: [
           {
             name: 'Standard Deduction (Single)',
-            amount: 12400
+            amount: 12550
           }
         ],
         exemptions: [
@@ -50,7 +50,7 @@ const federalBrackets: FederalBrackets = {
         deductions: [
           {
             name: 'Standard Deduction (Married)',
-            amount: 24800
+            amount: 25100
           }
         ],
         exemptions: [
@@ -64,13 +64,13 @@ const federalBrackets: FederalBrackets = {
         brackets: [19750, 80250, 171050, 326600, 414700, 622050],
         deductions: [
           {
-            name: 'Standard Deduction (Married)',
+            name: 'Standard Deduction (Widowed)',
             amount: 24800
           }
         ],
         exemptions: [
           {
-            name: 'Standard Exemption (Single)',
+            name: 'Standard Exemption (Widowed)',
             amount: 0
           }
         ]
@@ -80,7 +80,7 @@ const federalBrackets: FederalBrackets = {
         deductions: [
           {
             name: 'Standard Deduction (Married Filing Separately)',
-            amount: 12400
+            amount: 12550
           }
         ],
         exemptions: [
@@ -95,7 +95,7 @@ const federalBrackets: FederalBrackets = {
         deductions: [
           {
             name: 'Standard Deduction (Head of Household)',
-            amount: 18650
+            amount: 18800
           }
         ],
         exemptions: [
@@ -111,19 +111,19 @@ const federalBrackets: FederalBrackets = {
     rates: [0, 15, 20],
     status: {
       [FilingStatus.S]: {
-        brackets: [40000, 441450]
+        brackets: [40400, 164925, 441450]
       },
       [FilingStatus.MFJ]: {
-        brackets: [80000, 496600]
+        brackets: [80800, 329850, 496600]
       },
       [FilingStatus.W]: {
-        brackets: [80000, 496600]
+        brackets: [80800, 329850, 496600]
       },
       [FilingStatus.MFS]: {
-        brackets: [40000, 248300]
+        brackets: [40400, 164925, 250800]
       },
       [FilingStatus.HOH]: {
-        brackets: [53600, 469050]
+        brackets: [54100, 164900, 473750]
       }
     }
   }

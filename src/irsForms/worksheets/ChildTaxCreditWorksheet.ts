@@ -5,7 +5,7 @@ import { QualifyingDependents } from '../../data/federal'
 
 export default class ChildTaxCreditWorksheet {
   f1040: F1040
-  year = 2020
+  year = 2021
 
   constructor(f1040: F1040) {
     this.f1040 = f1040

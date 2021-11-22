@@ -9,7 +9,7 @@ import * as types from '../data'
 import * as util from '../util'
 import _ from 'lodash'
 
-const CURRENT_YEAR = 2020
+const CURRENT_YEAR = 2021
 
 const lower: Arbitrary<string> = fc
   .integer({ min: 0x61, max: 0x7a })
