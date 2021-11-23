@@ -2,12 +2,7 @@ import Form, { FormMethods } from '../Form'
 import F1040 from '../../irsForms/F1040'
 import { Field } from '../../pdfFiller'
 import { displayNumber, sumFields } from '../../irsForms/util'
-import {
-  AccountType,
-  FilingStatus,
-  Information,
-  State
-} from '../../data'
+import { AccountType, FilingStatus, Information, State } from '../../data'
 import parameters from './Parameters'
 import { IL1040scheduleileeic } from './IL1040ScheduleILEIC'
 import IL1040V from './IL1040V'
