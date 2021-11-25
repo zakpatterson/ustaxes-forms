@@ -42,7 +42,8 @@ import _ from 'lodash'
 import F8960, { needsF8960 } from './F8960'
 
 export enum F1040Error {
-  filingStatusUndefined = 'Select a filing status'
+  filingStatusUndefined = 'Select a filing status',
+  medicareWagesGreaterThanWages = 'Medicare wages are not allowed to be greater than wages'
 }
 
 export default class F1040 extends Form {
@@ -472,6 +473,10 @@ export default class F1040 extends Form {
     const result: F1040Error[] = []
     if (this.info.taxPayer.filingStatus === undefined) {
       result.push(F1040Error.filingStatusUndefined)
+    }
+
+    if (this.medicareWages() > this.wages()) {
+      result.push(F1040Error.medicareWagesGreaterThanWages)
     }
 
     return result
