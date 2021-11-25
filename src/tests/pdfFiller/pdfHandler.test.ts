@@ -1,5 +1,5 @@
 import * as fc from 'fast-check'
-import { PDFDocument, PDFField, PDFTextField } from 'pdf-lib'
+import { PDFField, PDFTextField } from 'pdf-lib'
 import { create1040PDFs } from '../../irsForms'
 import * as arbitraries from '../../tests/arbitraries'
 import { Information } from '../../data'
@@ -34,27 +34,32 @@ const findBadDecimalFormat = (
 const testEveryField = async <A>(
   info: Information,
   fieldMatch: (field: PDFField) => A | undefined
-): Promise<[string, [number, A][]][]> => {
-  const schedules: PDFDocument[] = await create1040PDFs(info)(localPDFs)
-  return schedules.flatMap((pdf, i) => {
-    const pdfBadFields: [number, A][] = pdf
-      .getForm()
-      .getFields()
-      .flatMap((field, i) => {
-        const fieldValue = fieldMatch(field)
-        if (fieldValue !== undefined) {
-          return [[i, fieldValue]]
-        }
-        return []
-      })
+): Promise<[string, [number, A][]][]> =>
+  create1040PDFs(info)(localPDFs)
+    .then<[string, [number, A][]][]>((schedules) =>
+      schedules.flatMap((pdf, i) => {
+        const pdfBadFields: [number, A][] = pdf
+          .getForm()
+          .getFields()
+          .flatMap((field, i) => {
+            const fieldValue = fieldMatch(field)
+            if (fieldValue !== undefined) {
+              return [[i, fieldValue]]
+            }
+            return []
+          })
 
-    if (pdfBadFields.length > 0) {
-      return [[pdf.getTitle() ?? `pdf-${i}`, pdfBadFields]]
-    } else {
+        if (pdfBadFields.length > 0) {
+          return [[pdf.getTitle() ?? `pdf-${i}`, pdfBadFields]]
+        } else {
+          return []
+        }
+      })
+    )
+    .catch(() => {
+      // ignore cases where 1040 cannot be generated
       return []
-    }
-  })
-}
+    })
 
 describe('pdfHandler', () => {
   it('every field has only two decimal places max', async () => {

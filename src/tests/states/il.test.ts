@@ -8,6 +8,7 @@ import { ILWIT } from '../../stateForms/IL/ILWit'
 import { isLeft } from '../../util'
 import StateForm from '../../stateForms/Form'
 import * as arbitraries from '../arbitraries'
+import { fail } from 'assert'
 
 const withStateReturn = (
   info: Information,
@@ -17,8 +18,9 @@ const withStateReturn = (
   const f1040Result = create1040(info)
 
   if (isLeft(f1040Result)) {
+    // ignore error infos with no 1040
     logContext.log(f1040Result.left.join(';'))
-    fail('error creating 1040')
+    return
   }
 
   const [f1040] = f1040Result.right
