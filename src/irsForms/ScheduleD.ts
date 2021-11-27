@@ -168,6 +168,14 @@ export default class ScheduleD extends Form {
     }
   }
 
+  lossCarryForward = (): number => {
+    const amount = this.l16() + this.l21Min()
+    if (amount < 0) {
+      return -amount
+    }
+    return 0
+  }
+
   to1040 = (): number => this.l21() ?? this.l16()
 
   computeTaxOnQDWorksheet = (): boolean =>
