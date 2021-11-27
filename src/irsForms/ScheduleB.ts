@@ -2,7 +2,7 @@ import { Information } from '../data'
 import InformationMethods from '../data/methods'
 import TaxPayer from '../data/TaxPayer'
 import Form, { FormTag } from './Form'
-import { computeField, displayNumber, sumFields } from './util'
+import { computeField, sumFields } from './util'
 
 interface PayerAmount {
   payer?: string
@@ -42,7 +42,7 @@ export default class ScheduleB extends Form {
   l3 = (): number | undefined => undefined
 
   l4 = (): number | undefined =>
-    displayNumber(computeField(this.l2()) - computeField(this.l3()))
+    computeField(this.l2()) - computeField(this.l3())
 
   l5Fields = (): PayerAmount[] =>
     this.state.f1099Divs().map((v) => ({
@@ -59,7 +59,7 @@ export default class ScheduleB extends Form {
   }
 
   l6 = (): number | undefined =>
-    displayNumber(sumFields(this.l5Fields().map(({ amount }) => amount)))
+    sumFields(this.l5Fields().map(({ amount }) => amount))
 
   foreignAccount = (): boolean =>
     this.state.questions.FOREIGN_ACCOUNT_EXISTS ?? false
