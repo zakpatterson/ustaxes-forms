@@ -41,7 +41,13 @@ describe('fillPdf', () => {
   it('should stop filling when non-boolean is passed to field type Checkbox', async () => {
     const pdf = await localPDFs('irs/f1040.pdf')
     const fieldsValue = ['Test', false, true, true, true, 'One', 'Two']
-    fillPDF(pdf, fieldsValue)
+    try {
+      fillPDF(pdf, fieldsValue)
+      expect('this line').not.toBe('reached')
+    } catch (e) {
+      const err = e as Error
+      expect(err.message).toContain('boolean')
+    }
 
     const fields = pdf.getForm().getFields()
     expectCheckbox(fields[0]).toBe(false)
