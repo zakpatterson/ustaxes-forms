@@ -1,6 +1,6 @@
 import { TaxPayer as TP } from '../data'
 import Form, { FormTag } from './Form'
-import { computeField, displayNumber, sumFields } from './util'
+import { sumFields } from './util'
 import TaxPayer from '../data/TaxPayer'
 import F8959 from './F8959'
 import F8960 from './F8960'
@@ -22,8 +22,7 @@ export default class Schedule2 extends Form {
   // Part I: Tax
   l1 = (): number | undefined => undefined // TODO: Alternative Minimum Tax (form 6251)
   l2 = (): number | undefined => undefined // TODO: excess advance premium tax credit repayment (form 8962)
-  l3 = (): number | undefined =>
-    displayNumber(computeField(this.l1()) + computeField(this.l2()))
+  l3 = (): number => sumFields([this.l1(), this.l2()])
 
   // Part II: Other Tax
   l4 = (): number | undefined => undefined // TODO: self-employment tax (schedule SE)
