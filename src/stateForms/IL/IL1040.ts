@@ -1,7 +1,7 @@
 import Form, { FormMethods } from '../Form'
 import F1040 from '../../irsForms/F1040'
 import { Field } from '../../pdfFiller'
-import { displayNumber, sumFields } from '../../irsForms/util'
+import { sumFields } from '../../irsForms/util'
 import { AccountType, FilingStatus, Information, State } from '../../data'
 import parameters from './Parameters'
 import { IL1040scheduleileeic } from './IL1040ScheduleILEIC'
@@ -500,20 +500,12 @@ export class IL1040 extends Form {
   /**
    * Index 64: 30
    */
-  l30 = (): number | undefined => {
-    const l29 = this.l29()
-    const l24 = this.l24()
-    if (l29 > l24) return l29 - l24
-  }
+  l30 = (): number => Math.max(0, this.l29() - this.l24())
 
   /**
    * Index 65: 31
    */
-  l31 = (): number | undefined => {
-    const l24 = this.l24()
-    const l29 = this.l29()
-    if (l24 > l29) return l24 - l29
-  }
+  l31 = (): number => Math.max(0, this.l24() - this.l29())
 
   /**
    * Index 66: 32
@@ -562,24 +554,20 @@ export class IL1040 extends Form {
   /**
    * Index 72: 34
    */
-  l34 = (): number | undefined => sumFields([this.l32(), this.l33()])
+  l34 = (): number => sumFields([this.l32(), this.l33()])
 
   /**
    * Index 73: 35
    * If you have an amount on L30 and this amount is greater than L34, this is your overpayment
    */
-  l35 = (): number | undefined => {
-    const l30 = this.l30() ?? 0
-    const l34 = this.l34() ?? 0
-    if (l30 > l34) return l30 - l34
-  }
+  l35 = (): number => Math.max(0, this.l30() - this.l34())
 
   /**
    * Index 74: 36
    * Amount you want refunded to you
    * TODO: assuming payer wants all refunded.
    */
-  l36 = (): number | undefined => this.l35()
+  l36 = (): number => this.l35()
 
   /**
    * Index 75: rn1
@@ -622,9 +610,9 @@ export class IL1040 extends Form {
    * Index 80: 39
    */
   l39 = (): number | undefined => {
-    const l31 = this.l31() ?? 0
-    const l34 = this.l34() ?? 0
-    const l30 = this.l30() ?? 0
+    const l31 = this.l31()
+    const l34 = this.l34()
+    const l30 = this.l30()
     if (l31 > 0) return l31 + l34
     if (l30 > 0 && l30 < l34) return l34 - l30
   }
@@ -826,61 +814,61 @@ export class IL1040 extends Form {
     this.f23(),
     this.f24(),
     this.f25(),
-    displayNumber(this.l1()),
-    displayNumber(this.l2()),
-    displayNumber(this.l3()),
-    displayNumber(this.l4()),
-    displayNumber(this.l5()),
-    displayNumber(this.l6()),
-    displayNumber(this.l7()),
+    this.l1(),
+    this.l2(),
+    this.l3(),
+    this.l4(),
+    this.l5(),
+    this.l6(),
+    this.l7(),
     this.f33(),
-    displayNumber(this.l8()),
-    displayNumber(this.l9()),
-    displayNumber(this.l10a()),
+    this.l8(),
+    this.l9(),
+    this.l10a(),
     this.f37(),
     this.f38(),
-    displayNumber(this.l10b()),
+    this.l10b(),
     this.f40(),
     this.f41(),
-    displayNumber(this.l10c()),
-    displayNumber(this.l10d()),
-    displayNumber(this.l10()),
-    displayNumber(this.l11()),
-    displayNumber(this.l12()),
-    displayNumber(this.l13()),
-    displayNumber(this.l14()),
-    displayNumber(this.l15()),
-    displayNumber(this.l16()),
-    displayNumber(this.l17()),
-    displayNumber(this.l18()),
-    displayNumber(this.l19()),
-    displayNumber(this.l20()),
-    displayNumber(this.l21()),
-    displayNumber(this.l22()),
-    displayNumber(this.l23()),
-    displayNumber(this.l24()),
-    displayNumber(this.l25()),
-    displayNumber(this.l26()),
-    displayNumber(this.l27()),
-    displayNumber(this.l28()),
-    displayNumber(this.l29()),
-    displayNumber(this.l30()),
-    displayNumber(this.l31()),
-    displayNumber(this.l32()),
+    this.l10c(),
+    this.l10d(),
+    this.l10(),
+    this.l11(),
+    this.l12(),
+    this.l13(),
+    this.l14(),
+    this.l15(),
+    this.l16(),
+    this.l17(),
+    this.l18(),
+    this.l19(),
+    this.l20(),
+    this.l21(),
+    this.l22(),
+    this.l23(),
+    this.l24(),
+    this.l25(),
+    this.l26(),
+    this.l27(),
+    this.l28(),
+    this.l29(),
+    this.l30(),
+    this.l31(),
+    this.l32(),
     this.f67(),
     this.f68(),
     this.f69(),
     this.f70(),
-    displayNumber(this.l33()),
-    displayNumber(this.l34()),
-    displayNumber(this.l35()),
-    displayNumber(this.l36()),
+    this.l33(),
+    this.l34(),
+    this.l35(),
+    this.l36(),
     this.f75(),
     this.f76(),
     this.f77(),
     this.f78(),
-    displayNumber(this.l38()),
-    displayNumber(this.l39()),
+    this.l38(),
+    this.l39(),
     this.f81(),
     this.f82(),
     this.f83(),

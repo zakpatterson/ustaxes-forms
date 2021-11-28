@@ -1,5 +1,5 @@
 import { Information, IncomeW2 } from '../data'
-import { displayNumber, sumFields } from './util'
+import { sumFields } from './util'
 import Form, { FormTag } from './Form'
 import TaxPayer from '../data/TaxPayer'
 import { fica } from '../data/federal'
@@ -53,8 +53,9 @@ export default class Schedule3 extends Form {
   // Part II: Other payments and refundable credits
   l8 = (): number | undefined => undefined
   l9 = (): number | undefined => undefined
-  l10 = (): number | undefined =>
-    displayNumber(claimableExcessSSTaxWithholding(this.f1040.validW2s())) // TODO: also applies to RRTA tax
+  l10 = (): number =>
+    // TODO: also applies to RRTA tax
+    claimableExcessSSTaxWithholding(this.f1040.validW2s())
 
   l11 = (): number | undefined => undefined
 

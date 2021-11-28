@@ -6,6 +6,7 @@ import Form from '../irsForms/Form'
 import { create1040 } from '../irsForms/Main'
 import Schedule2 from '../irsForms/Schedule2'
 import Schedule3 from '../irsForms/Schedule3'
+import { displayRound } from '../irsForms/util'
 import { isRight } from '../util'
 import * as arbitraries from './arbitraries'
 
@@ -72,7 +73,7 @@ describe('fica', () => {
       fc.property(arbitraries.f1040, ([f1040]) => {
         if (hasSSRefund(f1040)) {
           const s3l10 = f1040.schedule3?.l10()
-          expect(s3l10).not.toBeUndefined()
+          expect(displayRound(s3l10)).not.toBeUndefined()
           expect(s3l10).toBeGreaterThan(0)
 
           const ssWithheld = f1040
@@ -144,7 +145,7 @@ describe('fica', () => {
             const additionalWithheld = medicareWithheld - regularWithholding
             expect(f1040l25c).toEqual(additionalWithheld)
           } else {
-            expect(f1040.l25c()).toBeUndefined()
+            expect(displayRound(f1040.l25c())).toBeUndefined()
           }
         }
       })

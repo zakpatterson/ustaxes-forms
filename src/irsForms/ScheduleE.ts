@@ -9,7 +9,7 @@ import Form, { FormTag } from './Form'
 import TaxPayer from '../data/TaxPayer'
 import F6168 from './F6168'
 import F8582 from './F8582'
-import { displayNegPos, displayNumber, sumFields } from './util'
+import { displayNegPos, sumFields } from './util'
 import log from '../log'
 import _ from 'lodash'
 
@@ -143,8 +143,11 @@ export default class ScheduleE extends Form {
     fill(_.unzip(this.allExpenses()).map((column) => sumFields(column)))
 
   l21 = (): MatrixRow =>
-    _.zipWith(this.l3(), this.l4(), this.l20(), (x, y, z) =>
-      displayNumber((x ?? 0) + (y ?? 0) - (z ?? 0))
+    _.zipWith(
+      this.l3(),
+      this.l4(),
+      this.l20(),
+      (x, y, z) => (x ?? 0) + (y ?? 0) - (z ?? 0)
     ) as MatrixRow
 
   // Deductible real estate loss from 8582, as positive number
@@ -179,7 +182,7 @@ export default class ScheduleE extends Form {
 
   l32 = (): number | undefined => {
     unimplemented('Partnership and S corporation income or loss')
-    return displayNumber(0)
+    return undefined
   }
 
   l34ad = (): number | undefined => undefined
@@ -189,17 +192,17 @@ export default class ScheduleE extends Form {
 
   l37 = (): number | undefined => {
     unimplemented('Real estate trust income or loss')
-    return displayNumber(0)
+    return undefined
   }
 
   l39 = (): number | undefined => {
     unimplemented('REMICS income or loss')
-    return displayNumber(0)
+    return undefined
   }
 
   l40 = (): number | undefined => {
     unimplemented('Farm rental income or loss')
-    return displayNumber(0)
+    return undefined
   }
 
   l41 = (): number =>
@@ -246,13 +249,13 @@ export default class ScheduleE extends Form {
       ...this.l20(),
       ...this.l21(),
       ...this.l22(),
-      displayNumber(this.l23a()),
-      displayNumber(this.l23b()),
-      displayNumber(this.l23c()),
-      displayNumber(this.l23d()),
-      displayNumber(this.l23e()),
-      displayNumber(this.l24()),
-      displayNumber(Math.abs(this.l25())),
+      this.l23a(),
+      this.l23b(),
+      this.l23c(),
+      this.l23d(),
+      this.l23e(),
+      this.l24(),
+      Math.abs(this.l25()),
       displayNegPos(this.l26()),
       // Page 2 - TODO: completely unimplemented
       tp.namesString(),
