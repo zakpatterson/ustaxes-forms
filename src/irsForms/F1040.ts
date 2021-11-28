@@ -28,7 +28,7 @@ import ScheduleE from './ScheduleE'
 import ScheduleEIC from './ScheduleEIC'
 import ScheduleR from './ScheduleR'
 import Form, { FormTag } from './Form'
-import { computeField, sumFields } from './util'
+import { sumFields } from './util'
 import ScheduleB from './ScheduleB'
 import { computeOrdinaryTax } from './TaxTable'
 import SDQualifiedAndCapGains from './worksheets/SDQualifiedAndCapGains'
@@ -312,8 +312,7 @@ export default class F1040 extends Form {
   l10b = (): number | undefined => undefined
   l10c = (): number => sumFields([this.l10a(), this.l10b()])
 
-  l11 = (): number | undefined =>
-    computeField(this.l9()) - computeField(this.l10c())
+  l11 = (): number => Math.max(0, this.l9() - this.l10c())
 
   l12 = (): number | undefined => {
     if (this.scheduleA !== undefined) {
@@ -325,8 +324,7 @@ export default class F1040 extends Form {
   l13 = (): number | undefined => this.f8995?.deductions()
   l14 = (): number => sumFields([this.l12(), this.l13()])
 
-  l15 = (): number =>
-    Math.max(0, computeField(this.l11()) - computeField(this.l14()))
+  l15 = (): number => Math.max(0, this.l11() - this.l14())
 
   computeTax = (): number | undefined => {
     if (
@@ -351,22 +349,17 @@ export default class F1040 extends Form {
   l18 = (): number | undefined => sumFields([this.l16(), this.l17()])
 
   // TODO
-  l19 = (): number | undefined =>
-    computeField(this.childTaxCreditWorksheet?.l12())
+  l19 = (): number | undefined => this.childTaxCreditWorksheet?.l12()
   l20 = (): number | undefined => this.schedule3?.l7()
   l21 = (): number => sumFields([this.l19(), this.l20()])
 
-  l22 = (): number | undefined =>
-    computeField(this.l18()) - computeField(this.l21())
+  l22 = (): number | undefined => Math.max(0, (this.l18() ?? 0) - this.l21())
 
   l23 = (): number | undefined => this.schedule2?.l10()
   l24 = (): number | undefined => sumFields([this.l22(), this.l23()])
 
   l25a = (): number =>
-    this.validW2s().reduce(
-      (res, w2) => res + computeField(w2.fedWithholding),
-      0
-    )
+    this.validW2s().reduce((res, w2) => res + (w2.fedWithholding ?? 0), 0)
 
   // tax withheld from 1099s
   l25b = (): number =>
@@ -401,16 +394,14 @@ export default class F1040 extends Form {
 
   l33 = (): number => sumFields([this.l25d(), this.l26(), this.l32()])
 
-  l34 = (): number => computeField(this.l33()) - computeField(this.l24())
+  l34 = (): number => Math.max(0, this.l33() - (this.l24() ?? 0))
 
   // TODO: assuming user wants amount refunded
   // rather than applied to estimated tax
-  l35a = (): number | undefined => this.l34()
-  l36 = (): number | undefined =>
-    computeField(this.l34()) - computeField(this.l35a())
+  l35a = (): number => this.l34()
+  l36 = (): number | undefined => Math.max(0, this.l34() - this.l35a())
 
-  l37 = (): number | undefined =>
-    computeField(this.l24()) - computeField(this.l33())
+  l37 = (): number | undefined => Math.max(0, (this.l24() ?? 0) - this.l33())
 
   // TODO - estimated tax penalty
   l38 = (): number | undefined => undefined

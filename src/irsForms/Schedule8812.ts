@@ -1,7 +1,7 @@
 import { TaxPayer as TP } from '../data'
 import TaxPayer from '../data/TaxPayer'
 import F1040 from './F1040'
-import { computeField, sumFields } from './util'
+import { sumFields } from './util'
 import Form, { FormTag } from './Form'
 
 export default class Schedule8812 extends Form {
@@ -18,27 +18,16 @@ export default class Schedule8812 extends Form {
 
   // This can be calculated with either pub 972 or the child tax credit worksheet, but for now we're only supporting the worksheet
   // TODO: Add pub 972 support
-  l1 = (): number | undefined =>
-    computeField(this.f1040.childTaxCreditWorksheet?.l8())
+  l1 = (): number => this.f1040.childTaxCreditWorksheet?.l8() ?? 0
 
-  l2 = (): number | undefined => computeField(this.f1040.l19())
+  l2 = (): number => this.f1040.l19() ?? 0
 
-  l3 = (): number | undefined =>
-    computeField(this.l1()) - computeField(this.l2()) > 0
-      ? computeField(this.l1()) - computeField(this.l2())
-      : undefined
+  l3 = (): number => Math.max(0, this.l1() - this.l2())
 
   l4 = (): number | undefined =>
-    computeField(
-      this.f1040.childTaxCreditWorksheet?.numberQualifyingChildren()
-    ) > 0
-      ? computeField(
-          this.f1040.childTaxCreditWorksheet?.numberQualifyingChildren()
-        ) * 1400
-      : undefined
+    (this.f1040.childTaxCreditWorksheet?.numberQualifyingChildren() ?? 0) * 1400
 
-  l5 = (): number | undefined =>
-    Math.min(computeField(this.l3()), computeField(this.l4()))
+  l5 = (): number | undefined => Math.min(this.l3(), this.l4() ?? 0)
 
   // This is a horrible, horrible line
   // have net earnings from self-employment and used optional methods => report pub972 Earned Income Worksheet (even if taking EIC)
@@ -48,23 +37,21 @@ export default class Schedule8812 extends Form {
   // and add combat pay in as well
   // So for now, it's just line 1 or EIC step 5 (line 9)
   // TODO: Add other earned income definitions
-  l6 = (): number | undefined =>
-    this.f1040.scheduleEIC !== undefined
-      ? this.f1040.scheduleEIC?.earnedIncome(this.f1040)
-      : this.f1040.l1()
+  l6 = (): number =>
+    this.f1040.scheduleEIC?.earnedIncome(this.f1040) ?? this.f1040.l1()
 
-  l7checkBox = (): boolean => computeField(this.l6()) > 2500
+  l7checkBox = (): boolean => this.l6() > 2500
 
   l7 = (): number | undefined =>
-    computeField(this.l6()) > 2500 ? computeField(this.l6()) - 2500 : undefined
+    this.l7checkBox() ? this.l6() - 2500 : undefined
 
-  l8 = (): number | undefined => computeField(this.l7()) * 0.15
+  l8 = (): number | undefined => (this.l7() ?? 0) * 0.15
 
   ssWithholding(): number {
     if (this.f1040.validW2s().length > 0) {
       return this.f1040
         .validW2s()
-        .reduce((res, w2) => res + computeField(w2.ssWithholding), 0)
+        .reduce((res, w2) => res + (w2.ssWithholding ?? 0), 0)
     }
     return 0
   }
@@ -72,9 +59,9 @@ export default class Schedule8812 extends Form {
   medicareWithholding = (): number =>
     this.f1040
       .validW2s()
-      .reduce((res, w2) => res + computeField(w2.medicareWithholding), 0)
+      .reduce((res, w2) => res + (w2.medicareWithholding ?? 0), 0)
 
-  l9checkBox = (): boolean => computeField(this.l4()) > 4200
+  l9checkBox = (): boolean => (this.l4() ?? 0) > 4200
 
   l9 = (): number | undefined =>
     this.l9checkBox()
@@ -91,9 +78,7 @@ export default class Schedule8812 extends Form {
       : undefined
 
   l11 = (): number | undefined =>
-    this.l9checkBox()
-      ? computeField(this.l9()) + computeField(this.l10())
-      : undefined
+    this.l9checkBox() ? (this.l9() ?? 0) + (this.l10() ?? 0) : undefined
 
   // TODO: Add 1040-NR
   l12 = (): number | undefined =>
@@ -103,20 +88,16 @@ export default class Schedule8812 extends Form {
 
   l13 = (): number | undefined =>
     this.l9checkBox()
-      ? computeField(this.l11()) - computeField(this.l12()) > 0
-        ? computeField(this.l11()) - computeField(this.l12())
-        : 0
+      ? Math.max(0, (this.l11() ?? 0) - (this.l12() ?? 0))
       : undefined
 
   l14 = (): number | undefined =>
-    this.l9checkBox()
-      ? Math.max(computeField(this.l8()), computeField(this.l13()))
-      : undefined
+    this.l9checkBox() ? Math.max(this.l8() ?? 0, this.l13() ?? 0) : undefined
 
   l15 = (): number | undefined =>
     this.l9checkBox()
-      ? Math.min(computeField(this.l14()), computeField(this.l5()))
-      : computeField(this.l5())
+      ? Math.min(this.l14() ?? 0, this.l5() ?? 0)
+      : this.l5() ?? 0
 
   fields = (): Array<string | number | boolean | undefined> => {
     return [

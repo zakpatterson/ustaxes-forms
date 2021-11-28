@@ -1,6 +1,6 @@
 import { F1098e, FilingStatus } from '../../data'
 import F1040 from '../../irsForms/F1040'
-import { computeField, displayNumber, sumFields } from '../util'
+import { sumFields } from '../util'
 
 export default class StudentLoanInterestWorksheet {
   f1040: F1040
@@ -33,7 +33,7 @@ export default class StudentLoanInterestWorksheet {
     this.isNotDependentSpouse() && this.isNotDependentSelf()
 
   // Sum interest, but maximum of 2500 can be deducted
-  l1 = (): number | undefined =>
+  l1 = (): number =>
     Math.min(
       this.f1098es.map((f1098e) => f1098e.interest).reduce((l, r) => l + r, 0),
       2500
@@ -41,10 +41,10 @@ export default class StudentLoanInterestWorksheet {
 
   // Currently do not support unemployment compensation exclusion
   // TO DO: add unemployment compensation exclusion
-  l2 = (): number | undefined => this.f1040.l9()
+  l2 = (): number => this.f1040.l9()
 
   // Schedule 1 deductions
-  l3 = (): number | undefined =>
+  l3 = (): number =>
     sumFields([
       this.f1040.schedule1?.l10(),
       this.f1040.schedule1?.l11(),
@@ -59,24 +59,19 @@ export default class StudentLoanInterestWorksheet {
       this.f1040.schedule1?.l22writeIn()
     ])
 
-  l4 = (): number | undefined =>
-    computeField(this.l2()) - computeField(this.l3())
+  l4 = (): number => Math.max(0, this.l2() - this.l3())
 
   l5 = (): number =>
     this.f1040.info.taxPayer.filingStatus === FilingStatus.MFJ ? 140000 : 70000
 
-  l6 = (): number | undefined =>
-    computeField(this.l4()) > computeField(this.l5())
-      ? computeField(this.l4()) - computeField(this.l5())
-      : 0
+  l6 = (): number => Math.max(0, this.l4() - this.l5())
 
-  l7 = (): number | undefined => Math.min(computeField(this.l6()) / 15000, 1)
+  l7 = (): number => Math.min(this.l6() / 15000, 1)
 
-  l8 = (): number | undefined =>
-    computeField(this.l1()) * computeField(this.l7())
+  l8 = (): number => this.l1() * this.l7()
 
   l9 = (): number | undefined =>
     this.notMFS() && this.isNotDependent()
-      ? displayNumber(computeField(this.l1()) - computeField(this.l8()))
+      ? Math.max(0, this.l1() - this.l8())
       : undefined
 }

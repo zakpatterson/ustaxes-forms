@@ -1,6 +1,6 @@
 import F1040 from '../../irsForms/F1040'
 import { Dependent, FilingStatus } from '../../data'
-import { computeField, sumFields } from '../../irsForms/util'
+import { sumFields } from '../../irsForms/util'
 import { QualifyingDependents } from '../../data/federal'
 
 export default class ChildTaxCreditWorksheet {
@@ -47,26 +47,24 @@ export default class ChildTaxCreditWorksheet {
   l3 = (): number => this.l1() + this.l2()
 
   // worksheet line 4
-  l4 = (): number => computeField(this.f1040.l11())
+  l4 = (): number => this.f1040.l11() ?? 0
 
   // worksheet line 5
   l5 = (): number =>
     this.f1040.info.taxPayer.filingStatus === FilingStatus.MFJ ? 400000 : 200000
 
   // worksheet line 6
-  l6 = (): number | undefined =>
-    this.l4() > this.l5() ? this.l4() - this.l5() : undefined
+  l6 = (): number => Math.max(0, this.l4() - this.l5())
 
   // worksheet line 7
-  l7 = (): number =>
-    this.l6() !== undefined ? computeField(this.l6()) * 0.05 : 0
+  l7 = (): number => this.l6() * 0.05
 
   // worksheet line 8
   l8 = (): number | undefined =>
     this.l3() > this.l7() ? this.l3() - this.l7() : undefined
 
   // worksheet line 9
-  l9 = (): number => computeField(this.f1040.l18())
+  l9 = (): number => this.f1040.l18() ?? 0
 
   // worksheet line 10
   l10 = (): number =>
@@ -92,9 +90,7 @@ export default class ChildTaxCreditWorksheet {
   // Otherwise, returns l8, either because l8 is the deduction or because l8 is undefined and they can't take the deduction
   l12 = (): number | undefined =>
     this.l11() !== undefined
-      ? computeField(this.l8()) > computeField(this.l11())
-        ? this.l11()
-        : this.l8()
+      ? Math.min(this.l8() ?? 0, this.l11() ?? 0)
       : undefined
 
   // alias

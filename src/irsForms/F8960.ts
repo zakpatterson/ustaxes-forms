@@ -1,5 +1,5 @@
 import { Information } from '../data'
-import { computeField, sumFields } from './util'
+import { sumFields } from './util'
 import TaxPayer from '../data/TaxPayer'
 import Form, { FormTag } from './Form'
 import { netInvestmentIncomeTax } from '../data/federal'
@@ -102,18 +102,20 @@ export default class F8960 extends Form {
   l10 = (): number | undefined => undefined
   l11 = (): number => sumFields([this.l9d(), this.l10()])
 
-  l12 = (): number => computeField(this.l8()) - computeField(this.l11())
+  l12 = (): number => Math.max(0, this.l8() - this.l11())
 
   // TODO: This should also take into account values on form 2555 and adjustments for Certain CFCs and Certain PFICs
-  l13 = (): number | undefined => this.f1040.l11()
+  l13 = (): number => this.f1040.l11()
 
-  l14 = (): number | undefined => {
+  l14 = (): number => {
     const filingStatus = this.state.taxPayer.filingStatus
-    return filingStatus !== undefined
-      ? netInvestmentIncomeTax.taxThreshold(filingStatus)
-      : undefined
+    if (filingStatus === undefined) {
+      throw new Error('Filing status is undefined')
+    }
+    return netInvestmentIncomeTax.taxThreshold(filingStatus)
   }
-  l15 = (): number => computeField(this.l13()) - computeField(this.l14())
+
+  l15 = (): number => Math.max(0, this.l13() - this.l14())
   l16 = (): number => (this.l12() < this.l15() ? this.l12() : this.l15())
 
   l17 = (): number => Math.round(this.l16() * netInvestmentIncomeTax.taxRate)
@@ -121,19 +123,13 @@ export default class F8960 extends Form {
   // TODO: Estates and Trusts
   // leave all of the following undefined until we support estates and trusts
   // these lines are to be left blank for individuals
-  l18a = (): number | undefined => undefined // this.l12()
+  l18a = (): number | undefined => undefined
   l18b = (): number | undefined => undefined
-  l18c = (): number | undefined => undefined /*{
-    const tmp = this.l18a() - computeField(this.l18b()) 
-    return tmp < 0 ? 0 : tmp
-  }*/
+  l18c = (): number | undefined => undefined
 
   l19a = (): number | undefined => undefined
   l19b = (): number | undefined => undefined
-  l19c = (): number | undefined => undefined /*{
-    const  tmp = computeField(this.l19a()) - computeField(this.l19b()) 
-    return tmp < 0 ? 0 : tmp
-  }*/
+  l19c = (): number | undefined => undefined
 
   l20 = (): number | undefined => undefined // this.l19c() < this.l18c()? this.l19c() : this.l18c()
   l21 = (): number | undefined => undefined // Math.round(this.l20() * netInvestmentIncomeTax.taxRate)

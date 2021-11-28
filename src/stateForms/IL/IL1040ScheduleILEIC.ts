@@ -1,7 +1,6 @@
 import Form from '../../stateForms/Form'
 import F1040 from '../../irsForms/F1040'
 import { Field } from '../../pdfFiller'
-import { displayNumber } from '../../irsForms/util'
 import { Dependent, Information, State } from '../../data'
 import parameters from './Parameters'
 
@@ -1619,8 +1618,7 @@ export class IL1040scheduleileeic extends Form {
 
   earnedIncomeCredit = (): number | undefined => this.MultiplyL6L7()
 
-  f182 = (): number | undefined =>
-    displayNumber(Math.round(this.MultiplyL6L7() ?? 0))
+  f182 = (): number => Math.round(this.MultiplyL6L7() ?? 0)
 
   /**
    * Index 183: Your SSN3

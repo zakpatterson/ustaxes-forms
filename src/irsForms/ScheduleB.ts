@@ -2,7 +2,7 @@ import { Information } from '../data'
 import InformationMethods from '../data/methods'
 import TaxPayer from '../data/TaxPayer'
 import Form, { FormTag } from './Form'
-import { computeField, sumFields } from './util'
+import { sumFields } from './util'
 
 interface PayerAmount {
   payer?: string
@@ -36,13 +36,11 @@ export default class ScheduleB extends Form {
       .concat(Array(rightPad).fill(undefined))
   }
 
-  l2 = (): number | undefined =>
-    sumFields(this.state.f1099Ints().map((f) => f.form.income))
+  l2 = (): number => sumFields(this.state.f1099Ints().map((f) => f.form.income))
 
   l3 = (): number | undefined => undefined
 
-  l4 = (): number | undefined =>
-    computeField(this.l2()) - computeField(this.l3())
+  l4 = (): number | undefined => this.l2() - (this.l3() ?? 0)
 
   l5Fields = (): PayerAmount[] =>
     this.state.f1099Divs().map((v) => ({
