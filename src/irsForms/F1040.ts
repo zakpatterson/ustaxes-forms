@@ -338,25 +338,23 @@ export default class F1040 extends Form {
     if (this.info.taxPayer.filingStatus !== undefined) {
       return computeOrdinaryTax(this.info.taxPayer.filingStatus, this.l15())
     }
-
-    return undefined
   }
 
   l16 = (): number | undefined =>
     sumFields([this.f8814?.tax(), this.f4972?.tax(), this.computeTax()])
 
   l17 = (): number | undefined => this.schedule2?.l3()
-  l18 = (): number | undefined => sumFields([this.l16(), this.l17()])
+  l18 = (): number => sumFields([this.l16(), this.l17()])
 
   // TODO
   l19 = (): number | undefined => this.childTaxCreditWorksheet?.l12()
   l20 = (): number | undefined => this.schedule3?.l7()
   l21 = (): number => sumFields([this.l19(), this.l20()])
 
-  l22 = (): number | undefined => Math.max(0, (this.l18() ?? 0) - this.l21())
+  l22 = (): number => Math.max(0, (this.l18() ?? 0) - this.l21())
 
   l23 = (): number | undefined => this.schedule2?.l10()
-  l24 = (): number | undefined => sumFields([this.l22(), this.l23()])
+  l24 = (): number => sumFields([this.l22(), this.l23()])
 
   l25a = (): number =>
     this.validW2s().reduce((res, w2) => res + (w2.fedWithholding ?? 0), 0)
@@ -399,9 +397,9 @@ export default class F1040 extends Form {
   // TODO: assuming user wants amount refunded
   // rather than applied to estimated tax
   l35a = (): number => this.l34()
-  l36 = (): number | undefined => Math.max(0, this.l34() - this.l35a())
+  l36 = (): number => Math.max(0, this.l34() - this.l35a())
 
-  l37 = (): number | undefined => Math.max(0, (this.l24() ?? 0) - this.l33())
+  l37 = (): number => Math.max(0, (this.l24() ?? 0) - this.l33())
 
   // TODO - estimated tax penalty
   l38 = (): number | undefined => undefined

@@ -27,7 +27,7 @@ export default class Schedule8812 extends Form {
   l4 = (): number | undefined =>
     (this.f1040.childTaxCreditWorksheet?.numberQualifyingChildren() ?? 0) * 1400
 
-  l5 = (): number | undefined => Math.min(this.l3(), this.l4() ?? 0)
+  l5 = (): number => Math.min(this.l3(), this.l4() ?? 0)
 
   // This is a horrible, horrible line
   // have net earnings from self-employment and used optional methods => report pub972 Earned Income Worksheet (even if taking EIC)

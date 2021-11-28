@@ -500,20 +500,12 @@ export class IL1040 extends Form {
   /**
    * Index 64: 30
    */
-  l30 = (): number | undefined => {
-    const l29 = this.l29()
-    const l24 = this.l24()
-    if (l29 > l24) return l29 - l24
-  }
+  l30 = (): number => Math.max(0, this.l29() - this.l24())
 
   /**
    * Index 65: 31
    */
-  l31 = (): number | undefined => {
-    const l24 = this.l24()
-    const l29 = this.l29()
-    if (l24 > l29) return l24 - l29
-  }
+  l31 = (): number => Math.max(0, this.l24() - this.l29())
 
   /**
    * Index 66: 32
@@ -562,24 +554,20 @@ export class IL1040 extends Form {
   /**
    * Index 72: 34
    */
-  l34 = (): number | undefined => sumFields([this.l32(), this.l33()])
+  l34 = (): number => sumFields([this.l32(), this.l33()])
 
   /**
    * Index 73: 35
    * If you have an amount on L30 and this amount is greater than L34, this is your overpayment
    */
-  l35 = (): number | undefined => {
-    const l30 = this.l30() ?? 0
-    const l34 = this.l34() ?? 0
-    if (l30 > l34) return l30 - l34
-  }
+  l35 = (): number => Math.max(0, this.l30() - this.l34())
 
   /**
    * Index 74: 36
    * Amount you want refunded to you
    * TODO: assuming payer wants all refunded.
    */
-  l36 = (): number | undefined => this.l35()
+  l36 = (): number => this.l35()
 
   /**
    * Index 75: rn1
@@ -622,9 +610,9 @@ export class IL1040 extends Form {
    * Index 80: 39
    */
   l39 = (): number | undefined => {
-    const l31 = this.l31() ?? 0
-    const l34 = this.l34() ?? 0
-    const l30 = this.l30() ?? 0
+    const l31 = this.l31()
+    const l34 = this.l34()
+    const l30 = this.l30()
     if (l31 > 0) return l31 + l34
     if (l30 > 0 && l30 < l34) return l34 - l30
   }
