@@ -60,7 +60,7 @@ export default class F8959 extends Form {
   l4 = (): number => sumFields([this.l1(), this.l2(), this.l3()])
 
   l5 = (): number => this.thresholdFromFilingStatus()
-  l6 = (): number => this.l4() - this.l5()
+  l6 = (): number => Math.max(0, this.l4() - this.l5())
 
   l7 = (): number | undefined =>
     this.computeAdditionalMedicareTax(this.l6() ?? 0)
@@ -69,9 +69,9 @@ export default class F8959 extends Form {
   l8 = (): number | undefined => this.scheduleSE?.l6()
   l9 = (): number => this.thresholdFromFilingStatus()
   l10 = (): number => this.l4()
-  l11 = (): number => this.l9() - this.l10()
+  l11 = (): number => Math.max(0, this.l9() - this.l10())
 
-  l12 = (): number => (this.l8() ?? 0) - this.l11()
+  l12 = (): number => Math.max(0, (this.l8() ?? 0) - this.l11())
 
   l13 = (): number | undefined => this.computeAdditionalMedicareTax(this.l12())
 
@@ -79,7 +79,7 @@ export default class F8959 extends Form {
   // (RRTA) Compensation
   l14 = (): number | undefined => undefined // TODO: RRTA in W2
   l15 = (): number => this.thresholdFromFilingStatus()
-  l16 = (): number => (this.l14() ?? 0) - this.l15()
+  l16 = (): number => Math.max(0, (this.l14() ?? 0) - this.l15())
 
   l17 = (): number => this.computeAdditionalMedicareTax(this.l12())
 
@@ -95,7 +95,7 @@ export default class F8959 extends Form {
   l20 = (): number => this.l1()
   l21 = (): number => fica.regularMedicareTaxRate * this.l20()
 
-  l22 = (): number => this.l19() - this.l21()
+  l22 = (): number => Math.max(0, this.l19() - this.l21())
 
   l23 = (): number | undefined => 0 // TODO: RRTA
   l24 = (): number => sumFields([this.l22(), this.l23()])

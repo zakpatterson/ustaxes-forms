@@ -127,7 +127,7 @@ describe('fica', () => {
           // Adds the right amount of additional tax
           const s2l8 = f1040.f8959?.l18()
           expect(s2l8).not.toBeUndefined()
-          expect(s2l8).toEqual(
+          expect(Math.round(s2l8 ?? 0)).toEqual(
             Math.round(incomeOverThreshold * fica.additionalMedicareTaxRate)
           )
 
@@ -143,7 +143,9 @@ describe('fica', () => {
             const f1040l25c = f1040.l25c()
             expect(f1040l25c).not.toBeUndefined()
             const additionalWithheld = medicareWithheld - regularWithholding
-            expect(f1040l25c).toEqual(additionalWithheld)
+            expect(displayRound(f1040l25c)).toEqual(
+              displayRound(additionalWithheld)
+            )
           } else {
             expect(displayRound(f1040.l25c())).toBeUndefined()
           }
