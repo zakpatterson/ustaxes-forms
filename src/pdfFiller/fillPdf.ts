@@ -1,6 +1,7 @@
 import { PDFDocument, PDFCheckBox, PDFTextField } from 'pdf-lib'
 import { Field } from '.'
 import { displayRound } from '../irsForms/util'
+import { fieldIsNumber } from './Fill'
 
 /**
  * Attempt to fill fields in a PDF from a Form,
@@ -13,9 +14,29 @@ export function fillPDF(pdf: PDFDocument, fieldValues: Field[]): void {
   formFields.forEach((pdfField, index) => {
     const value: Field = fieldValues[index]
 
-    const error = (expected: string): Error => {
+    const error = (
+      expected: string,
+      received: boolean | string | undefined | number
+    ): Error => {
       return new Error(
-        `Field ${index}, ${pdfField.getName()} expected ${expected}`
+        [
+          `${pdf.getTitle()}, Field ${index}, ${pdfField.getName()} expected ${expected}, got ${received}`,
+          'Nearby:',
+          ...formFields
+            .slice(index - 20, index + 20)
+            .map(
+              (f, i) =>
+                `${index - 20 + i}: ${f.getName()}: ${
+                  f instanceof PDFCheckBox ? 'boolean' : 'text'
+                }): ${
+                  pdfField instanceof PDFCheckBox
+                    ? pdfField.isChecked()
+                    : (pdfField as PDFTextField).getText()
+                } / ${fieldValues[
+                  index - 20 + i
+                ]?.toString()} / ${typeof fieldValues[index - 20 + i]}`
+            )
+        ].join('\n')
       )
     }
 
@@ -23,16 +44,16 @@ export function fillPDF(pdf: PDFDocument, fieldValues: Field[]): void {
       if (value === true) {
         pdfField.check()
       } else if (value !== false && value !== undefined) {
-        throw error('boolean')
+        throw error('boolean', value)
       }
     } else if (pdfField instanceof PDFTextField) {
       try {
-        const showValue = !isNaN(value as number)
-          ? displayRound(value as number | undefined)?.toString()
+        const showValue = fieldIsNumber(value)
+          ? displayRound(value)?.toString()
           : value?.toString()
         pdfField.setText(showValue)
       } catch (err) {
-        throw error('text field')
+        throw error('text field', value)
       }
     }
     pdfField.enableReadOnly()

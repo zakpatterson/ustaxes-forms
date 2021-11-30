@@ -83,7 +83,7 @@ export default class Schedule8812 extends Form {
   // TODO: Add 1040-NR
   l12 = (): number | undefined =>
     this.l9checkBox()
-      ? sumFields([this.f1040.l27(), this.f1040.schedule3?.l10()])
+      ? sumFields([this.f1040.l27a(), this.f1040.schedule3?.l10()])
       : undefined
 
   l13 = (): number | undefined =>

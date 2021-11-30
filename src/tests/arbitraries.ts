@@ -112,45 +112,45 @@ const employer: Arbitrary<types.Employer> = fc
     address
   }))
 
-const w2: Arbitrary<types.IncomeW2> = fc
-  .tuple(
-    maxWords(2),
-    wages,
-    fc.nat(),
-    fc.nat(),
-    fc.nat(),
-    fc.nat(),
-    employer,
-    state,
-    fc.nat(),
-    fc.nat()
-  )
-  .map(
-    ([
-      occupation,
-      income,
-      medicareIncome,
-      fedWithholding,
-      ssWithholding,
-      medicareWithholding,
+const w2: Arbitrary<types.IncomeW2> = wages.chain((income) =>
+  fc
+    .tuple(
+      maxWords(2),
+      fc.nat({ max: income }),
+      fc.nat({ max: income }),
+      fc.nat({ max: income }),
+      fc.nat({ max: income }),
       employer,
       state,
-      stateWages,
-      stateWithholding
-    ]) => ({
-      occupation,
-      income,
-      medicareIncome,
-      fedWithholding,
-      employer,
-      personRole: types.PersonRole.PRIMARY,
-      ssWithholding,
-      medicareWithholding,
-      state,
-      stateWages,
-      stateWithholding
-    })
-  )
+      fc.nat({ max: income }),
+      fc.nat({ max: income })
+    )
+    .map(
+      ([
+        occupation,
+        medicareIncome,
+        fedWithholding,
+        ssWithholding,
+        medicareWithholding,
+        employer,
+        state,
+        stateWages,
+        stateWithholding
+      ]) => ({
+        occupation,
+        income,
+        medicareIncome,
+        fedWithholding,
+        employer,
+        personRole: types.PersonRole.PRIMARY,
+        ssWithholding,
+        medicareWithholding,
+        state,
+        stateWages,
+        stateWithholding
+      })
+    )
+)
 
 export const f1099IntData: Arbitrary<types.F1099IntData> = fc
   .nat()
@@ -334,32 +334,27 @@ export const dependent: Arbitrary<types.Dependent> = fc
     qualifyingInfo
   }))
 
-export const taxPayer: Arbitrary<types.TaxPayer> = fc
-  .tuple(
-    filingStatus,
-    primaryPerson,
-    spouse,
-    fc.array(dependent),
-    email,
-    phoneNumber
-  )
-  .map(
-    ([
-      filingStatus,
-      primaryPerson,
-      spouse,
-      dependents,
-      contactEmail,
-      contactPhoneNumber
-    ]) => ({
-      filingStatus,
-      primaryPerson,
-      spouse,
-      dependents,
-      contactEmail,
-      contactPhoneNumber
-    })
-  )
+export const taxPayer: Arbitrary<types.TaxPayer> = filingStatus.chain(
+  (filingStatus) =>
+    fc
+      .tuple(primaryPerson, spouse, fc.array(dependent), email, phoneNumber)
+      .map(
+        ([
+          primaryPerson,
+          spouse,
+          dependents,
+          contactEmail,
+          contactPhoneNumber
+        ]) => ({
+          filingStatus,
+          primaryPerson,
+          spouse: filingStatus === types.FilingStatus.MFJ ? spouse : undefined,
+          dependents,
+          contactEmail,
+          contactPhoneNumber
+        })
+      )
+)
 
 const questionTag: Arbitrary<QuestionTagName> = fc.constantFrom(
   ...questionTagNames

@@ -1579,7 +1579,7 @@ export class IL1040scheduleileeic extends Form {
   /**
    * Index 178: Federal Earned Income Credit amount
    */
-  FederalEarnedIncomeCreditamount = (): number | undefined => this.f1040.l27()
+  FederalEarnedIncomeCreditamount = (): number | undefined => this.f1040.l27a()
 
   f178 = (): number | undefined => this.FederalEarnedIncomeCreditamount()
 

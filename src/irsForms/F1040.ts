@@ -376,7 +376,17 @@ export default class F1040 extends Form {
   l26 = (): number =>
     this.info.estimatedTaxes.reduce((res, et) => res + et.payment, 0)
 
-  l27 = (): number | undefined => this.scheduleEIC?.credit(this) ?? 0
+  l27a = (): number | undefined => this.scheduleEIC?.credit(this) ?? 0
+
+  // TODO: handle taxpayers between 1998 and 2004 that
+  // can claim themselves for eic.
+  l27acheckBox = (): boolean => false
+
+  // TODO: nontaxable combat pay
+  l27b = (): number | undefined => undefined
+
+  // TODO: prior year earned income
+  l27c = (): number | undefined => undefined
 
   l28 = (): number | undefined => this.schedule8812?.l15()
 
@@ -388,7 +398,7 @@ export default class F1040 extends Form {
   l31 = (): number | undefined => this.schedule3?.l13()
 
   l32 = (): number =>
-    sumFields([this.l27(), this.l28(), this.l29(), this.l30(), this.l31()])
+    sumFields([this.l27a(), this.l28(), this.l29(), this.l30(), this.l31()])
 
   l33 = (): number => sumFields([this.l25d(), this.l26(), this.l32()])
 
@@ -542,7 +552,10 @@ export default class F1040 extends Form {
       this.l25c(),
       this.l25d(),
       this.l26(),
-      this.l27(),
+      this.l27a(),
+      this.l27acheckBox(),
+      this.l27b(),
+      this.l27c(),
       this.l28(),
       this.l29(),
       this.l30(),
