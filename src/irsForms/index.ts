@@ -6,6 +6,18 @@ import log from '../log'
 import { combinePdfs, getPdfs, PDFDownloader } from '../pdfFiller/pdfHandler'
 import { Information } from '../data'
 import { F1040Error } from './F1040'
+import Form from './Form'
+
+export const insertFormDataToPdfs = async (
+  forms: Form[],
+  downloader: PDFDownloader
+): Promise<PDFDocument[]> => {
+  const pdfs: PDFDocument[] = await Promise.all(
+    forms.map(async (f) => await downloader(`/irs/${f.tag}.pdf`))
+  )
+
+  return getPdfs(_.zipWith(forms, pdfs, (a, b) => [a, b]))
+}
 
 export const create1040PDFs =
   (state: Information) =>
@@ -21,11 +33,7 @@ export const create1040PDFs =
 
       const [, forms] = f1040Result.right
 
-      const pdfs: PDFDocument[] = await Promise.all(
-        forms.map(async (f) => await downloader(`/irs/${f.tag}.pdf`))
-      )
-
-      return right(getPdfs(_.zipWith(forms, pdfs, (a, b) => [a, b])))
+      return right(await insertFormDataToPdfs(forms, downloader))
     }
 
     log.error('Attempt to create pdf with no data, will be empty')

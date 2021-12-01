@@ -1,12 +1,5 @@
-import * as fc from 'fast-check'
 import { PDFDocument, PDFField, PDFTextField } from 'pdf-lib'
-import { create1040PDFs } from '../../irsForms'
-import * as arbitraries from '../../tests/arbitraries'
-import { Information } from '../../data'
-import { localPDFs } from '../../tests/common/LocalForms'
-//import prand from 'pure-rand'
-import { Parameters } from 'fast-check'
-import { isRight } from '../../util'
+import { with1040Pdfs } from '../common/F1040'
 
 jest.setTimeout(120 * 1000)
 
@@ -30,24 +23,6 @@ const findBadDecimalFormat = (
     }
   }
 }
-
-const with1040Pdfs = async (
-  f: (pdfs: PDFDocument[], info: Information) => void,
-  params: Parameters<[Information]> = {
-    // This might take a long time as many pdfs have to be rendered
-    // So by default just run for 1 minute max and hope
-    interruptAfterTimeLimit: 60 * 1000
-  }
-): Promise<void> =>
-  fc.assert(
-    fc.asyncProperty(arbitraries.information, async (info) => {
-      const pdfs = await create1040PDFs(info)(localPDFs)
-      if (isRight(pdfs)) {
-        f(pdfs.right, info)
-      }
-    }),
-    params
-  )
 
 describe('pdfHandler', () => {
   it('every field has only two decimal places max', async () => {
