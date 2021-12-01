@@ -27,6 +27,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
       # installs dependencies
     - run: npm ci
+      # make sure we can build with tsc
+    - run: npm run build
       # run tests
     - name: Run jest unit tests
       run: npm run test:report
