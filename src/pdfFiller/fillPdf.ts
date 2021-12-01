@@ -23,10 +23,13 @@ export function fillPDF(pdf: PDFDocument, fieldValues: Field[]): void {
           `${pdf.getTitle()}, Field ${index}, ${pdfField.getName()} expected ${expected}, got ${received}`,
           'Nearby:',
           ...formFields
-            .slice(index - 20, index + 20)
+            .slice(
+              index - Math.min(index, 20),
+              index + Math.min(formFields.length, 20)
+            )
             .map(
               (f, i) =>
-                `${index - 20 + i}: ${f.getName()}: ${
+                `${index - Math.min(index, 20) + i}: ${f.getName()}: ${
                   f instanceof PDFCheckBox ? 'boolean' : 'text'
                 }): ${
                   pdfField instanceof PDFCheckBox

@@ -3,10 +3,6 @@ import { TaxPayer } from '../../data'
 import { ifNegative, ifPositive } from '../../util'
 import F1040 from '../../irsForms/F1040'
 import { sumFields } from '../../irsForms/util'
-import log from '../../log'
-
-const unimplemented = (message: string): void =>
-  log.warn(`[Pub 596 Worksheet 1] unimplemented ${message}`)
 
 export default class Pub596Worksheet1 {
   tp: TaxPayer
@@ -22,8 +18,7 @@ export default class Pub596Worksheet1 {
     sumFields([this.f1040.l2a(), this.f1040.f8814?.l1b()])
   l3 = (): number | undefined => this.f1040.l3b()
   l4 = (): number | undefined => {
-    unimplemented("Unchecked child's Alaska permanent fund dividend")
-    return this.f1040.schedule1?.l8()
+    return this.f1040.schedule1?.l8f()
   }
 
   l5 = (): number => ((this.f1040.l7() ?? 0) < 0 ? 0 : this.f1040.l7() ?? 0)
@@ -44,18 +39,15 @@ export default class Pub596Worksheet1 {
   }
 
   l8 = (): number | undefined =>
-    sumFields([this.f1040.scheduleE?.l23b(), this.f1040.schedule1?.l8()])
+    sumFields([this.f1040.scheduleE?.l23b(), this.f1040.schedule1?.l8k()])
 
   l9 = (): number | undefined =>
     sumFields([
       this.f1040.scheduleE?.royaltyExpenses(),
-      this.f1040.schedule1?.l22()
+      this.f1040.schedule1?.l24b()
     ])
 
-  l10 = (): number => {
-    const diff = (this.l9() ?? 0) - (this.l8() ?? 0)
-    return diff < 0 ? 0 : diff
-  }
+  l10 = (): number => Math.max(0, (this.l9() ?? 0) - (this.l8() ?? 0))
 
   l11 = (): number | undefined =>
     sumFields([

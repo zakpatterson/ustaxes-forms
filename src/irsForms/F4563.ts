@@ -3,12 +3,13 @@ import { Field } from '../pdfFiller'
 import Form, { FormTag } from './Form'
 
 /**
- * Impacts EIC, 1040 instructions L27 step 1 question 4
+ * Exclusion of income for residents of American Somoa
+ * Impacts 8812,
  */
-export default class F2555 extends Form {
+export default class F4563 extends Form {
   tp: TaxPayer
-  tag: FormTag = 'f2555'
-  sequenceIndex = 34
+  sequenceIndex = 563
+  tag: FormTag = 'f4563'
 
   constructor(tp: TaxPayer) {
     super()
@@ -16,10 +17,7 @@ export default class F2555 extends Form {
   }
 
   // TODO - required from 8812
-  l45 = (): number => 0
-
-  // TODO - required from 8812
-  l50 = (): number => 0
+  l15 = (): number => 0
 
   fields = (): Field[] => []
 }

@@ -12,6 +12,7 @@ export default class F8936 extends Form {
     this.tp = tp
   }
 
+  l15 = (): number | undefined => undefined
   l23 = (): number | undefined => undefined
 
   fields = (): Field[] => []

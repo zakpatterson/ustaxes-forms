@@ -134,6 +134,8 @@ export default class F8960 extends Form {
   l20 = (): number | undefined => undefined // this.l19c() < this.l18c()? this.l19c() : this.l18c()
   l21 = (): number | undefined => undefined // Math.round(this.l20() * netInvestmentIncomeTax.taxRate)
 
+  toSchedule2l12 = (): number | undefined => this.l21()
+
   fields = (): Array<string | number | boolean | undefined> => {
     const tp = new TaxPayer(this.state.taxPayer)
     return [
