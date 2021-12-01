@@ -24,10 +24,9 @@ export default class F1040V extends Form {
     }
 
     const result = [
+      Math.trunc(taxOwed), // dollars
       tp.primaryPerson?.ssid,
       tp.spouse?.ssid,
-      Math.trunc(taxOwed), // dollars
-      Math.round((taxOwed - Math.trunc(taxOwed)) * 100), // cents
       tp.primaryPerson?.firstName,
       tp.primaryPerson?.lastName,
       tp.spouse?.firstName,

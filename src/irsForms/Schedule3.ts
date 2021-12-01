@@ -43,32 +43,108 @@ export default class Schedule3 extends Form {
   // Part I: Nonrefundable credits
   l1 = (): number | undefined => undefined
   l2 = (): number | undefined => undefined
-  l3 = (): number | undefined => undefined
+  l3 = (): number | undefined => this.f1040.f8863?.l19()
   l4 = (): number | undefined => undefined
   l5 = (): number | undefined => undefined
-  l6 = (): number | undefined => undefined // TODO: checkboxes
-  l7 = (): number | undefined =>
-    sumFields([this.l1(), this.l2(), this.l3(), this.l4(), this.l5()])
+  l6a = (): number | undefined => undefined // TODO: other credits
+  l6b = (): number | undefined => undefined // TODO: other credits
+  l6c = (): number | undefined => undefined // TODO: other credits
+  l6d = (): number | undefined => undefined // TODO: other credits
+  l6e = (): number | undefined => undefined // TODO: other credits
+  l6f = (): number | undefined => undefined // TODO: other credits
+  l6g = (): number | undefined => undefined // TODO: other credits
+  l6h = (): number | undefined => undefined // TODO: other credits
+  l6i = (): number | undefined => undefined // TODO: other credits
+  l6j = (): number | undefined => undefined // TODO: other credits
+  l6k = (): number | undefined => undefined // TODO: other credits
+  l6l = (): number | undefined => undefined // TODO: other credits
+  l6zDesc1 = (): string | undefined => undefined
+  l6zDesc2 = (): string | undefined => undefined
+  l6z = (): number | undefined => undefined // TODO: other credits
+
+  l7 = (): number =>
+    sumFields([
+      this.l6a(),
+      this.l6b(),
+      this.l6c(),
+      this.l6d(),
+      this.l6e(),
+      this.l6f(),
+      this.l6g(),
+      this.l6h(),
+      this.l6i(),
+      this.l6j(),
+      this.l6k(),
+      this.l6l(),
+      this.l6z()
+    ])
+
+  l8 = (): number =>
+    sumFields([
+      this.l1(),
+      this.l2(),
+      this.l3(),
+      this.l4(),
+      this.l5(),
+      this.l7()
+    ])
 
   // Part II: Other payments and refundable credits
-  l8 = (): number | undefined => undefined
-  l9 = (): number | undefined => undefined
-  l10 = (): number =>
+  l9 = (): number | undefined => this.f1040.f8962?.credit()
+
+  // TODO: Amount paid with extension for time to file
+  l10 = (): number | undefined => undefined
+
+  l11 = (): number =>
     // TODO: also applies to RRTA tax
     claimableExcessSSTaxWithholding(this.f1040.validW2s())
 
-  l11 = (): number | undefined => undefined
+  l12 = (): number | undefined => this.f1040.f4136?.credit()
 
-  l12a = (): number | undefined => undefined
-  l12b = (): number | undefined => undefined
-  l12c = (): number | undefined => undefined
-  l12d = (): number | undefined => undefined // TODO: 'other' box
-  l12e = (): number | undefined => undefined
-  l12f = (): number | undefined =>
-    sumFields([this.l12a(), this.l12b(), this.l12c(), this.l12d(), this.l12e()])
+  l13a = (): number | undefined => this.f1040.f2439?.credit()
+  // TODO: qualified sick and family leave credits
+  // Schedule H and form 7202 pre 4/1/21
+  l13b = (): number | undefined => undefined
 
-  l13 = (): number | undefined =>
-    sumFields([this.l8(), this.l9(), this.l10(), this.l11(), this.l12f()])
+  // Health coverage tax credit from 8885
+  l13c = (): number | undefined => undefined
+
+  // TODO: Credit for repayment of amounts included in income from earlier years
+  l13d = (): number | undefined => undefined // TODO: 'other' box
+
+  // reserved!
+  l13e = (): number | undefined => undefined
+
+  // deferred amount of net 965 tax liability
+  l13f = (): number | undefined => undefined
+
+  l13g = (): number | undefined => this.f1040.f2441?.credit()
+
+  // TODO: qualified sick and family leave credits
+  // Schedule H and form 7202 post 3/31/21
+  l13h = (): number | undefined => undefined
+
+  l13zDesc1 = (): string | undefined => undefined
+  l13zDesc2 = (): string | undefined => undefined
+  l13z = (): number | undefined => undefined
+
+  l14 = (): number =>
+    sumFields([
+      this.l13a(),
+      this.l13b(),
+      this.l13c(),
+      this.l13d(),
+      this.l13e(),
+      this.l13f(),
+      this.l13g(),
+      this.l13h(),
+      this.l13z()
+    ])
+
+  l15 = (): number =>
+    sumFields([this.l9(), this.l10(), this.l11(), this.l12(), this.l14()])
+
+  // Credit for child and dependent care expenses form 2441, line 10
 
   fields = (): Array<string | number | boolean | undefined> => {
     const tp = new TaxPayer(this.state.taxPayer)
@@ -80,25 +156,41 @@ export default class Schedule3 extends Form {
       this.l3(),
       this.l4(),
       this.l5(),
-
-      ...Array(4).fill(undefined), // TODO: checkboxes
-      this.l6(),
-
+      this.l6a(),
+      this.l6b(),
+      this.l6c(),
+      this.l6d(),
+      this.l6e(),
+      this.l6f(),
+      this.l6g(),
+      this.l6h(),
+      this.l6j(),
+      this.l6k(),
+      this.l6l(),
+      this.l6zDesc1(),
+      this.l6zDesc2(),
+      this.l6z(),
       this.l7(),
       this.l8(),
+
       this.l9(),
       this.l10(),
       this.l11(),
+      this.l12(),
 
-      this.l12a(),
-      this.l12b(),
-      this.l12c(),
-      undefined /* TODO: 'other' box */,
-      this.l12d(),
-      this.l12e(),
-
-      this.l12f(),
-      this.l13()
+      this.l13a(),
+      this.l13b(),
+      this.l13c(),
+      this.l13d(),
+      this.l13e(),
+      this.l13f(),
+      this.l13g(),
+      this.l13h(),
+      this.l13zDesc1(),
+      this.l13zDesc2(),
+      this.l13z(),
+      this.l14(),
+      this.l15()
     ]
   }
 }

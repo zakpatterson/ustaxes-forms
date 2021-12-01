@@ -11,7 +11,6 @@ import federalBrackets from '../data/federal'
 import F4972 from './F4972'
 import F5695 from './F5695'
 import F8814 from './F8814'
-import Schedule8863 from './F8863'
 import F8888 from './F8888'
 import F8910 from './F8910'
 import F8936 from './F8936'
@@ -41,6 +40,14 @@ import InformationMethods from '../data/methods'
 import _ from 'lodash'
 import F8960, { needsF8960 } from './F8960'
 import F4952 from './F4952'
+import F2555 from './F2555'
+import F4563 from './F4563'
+import F8863 from './F8863'
+import F8962 from './F8962'
+import F4136 from './F4136'
+import F2439 from './F2439'
+import F2441 from './F2441'
+import ScheduleC from './ScheduleC'
 
 export enum F1040Error {
   filingStatusUndefined = 'Select a filing status',
@@ -60,22 +67,29 @@ export default class F1040 extends Form {
   schedule3?: Schedule3
   scheduleA?: ScheduleA
   scheduleB?: ScheduleB
+  scheduleC?: ScheduleC
   scheduleD?: ScheduleD
   scheduleE?: ScheduleE
   scheduleEIC?: ScheduleEIC
   scheduleR?: ScheduleR
   schedule8812?: Schedule8812
-  schedule8863?: Schedule8863
+  f2439?: F2439
+  f2441?: F2441
+  f2555?: F2555
+  f4136?: F4136
+  f4563?: F4563
   f4797?: F4797
   f4952?: F4952
   f4972?: F4972
   f5695?: F5695
   f8814?: F8814
+  f8863?: F8863
   f8888?: F8888
   f8910?: F8910
   f8936?: F8936
   f8959?: F8959
   f8960?: F8960
+  f8962?: F8962
   f8995?: F8995 | F8995A
   studentLoanInterestWorksheet?: StudentLoanInterestWorksheet
   socialSecurityBenefitsWorksheet?: SocialSecurityBenefitsWorksheet
@@ -94,6 +108,9 @@ export default class F1040 extends Form {
     ${JSON.stringify(this.info)}
   `
 
+  // TODO - get from W2 box 12, code Q
+  nonTaxableCombatPay = (): number | undefined => undefined
+
   schedules = (): Form[] => {
     const res1: (Form | undefined)[] = [
       this,
@@ -104,7 +121,6 @@ export default class F1040 extends Form {
       this.scheduleR,
       this.scheduleEIC,
       this.schedule8812,
-      this.schedule8863,
       this.f4797,
       this.f4952,
       this.f4972,
@@ -178,7 +194,7 @@ export default class F1040 extends Form {
     }
 
     if (this.f8959 !== undefined || this.f8960 !== undefined) {
-      this.schedule2 = new Schedule2(this.info.taxPayer, this.f8959, this.f8960)
+      this.schedule2 = new Schedule2(this.info.taxPayer, this)
     }
 
     if (
@@ -201,7 +217,7 @@ export default class F1040 extends Form {
     }
 
     const ws = new ChildTaxCreditWorksheet(this)
-    const schedule8812 = new Schedule8812(this.info.taxPayer, this)
+    const schedule8812 = new Schedule8812(this)
 
     if (
       this.info.taxPayer.dependents.some(
@@ -353,7 +369,8 @@ export default class F1040 extends Form {
 
   l22 = (): number => Math.max(0, (this.l18() ?? 0) - this.l21())
 
-  l23 = (): number | undefined => this.schedule2?.l10()
+  l23 = (): number | undefined => this.schedule2?.l21()
+
   l24 = (): number => sumFields([this.l22(), this.l23()])
 
   l25a = (): number =>
@@ -388,14 +405,14 @@ export default class F1040 extends Form {
   // TODO: prior year earned income
   l27c = (): number | undefined => undefined
 
-  l28 = (): number | undefined => this.schedule8812?.l15()
+  l28 = (): number | undefined => this.schedule8812?.to1040Line28()
 
-  l29 = (): number | undefined => this.schedule8863?.l8()
+  l29 = (): number | undefined => this.f8863?.l8()
 
   // TODO: recovery rebate credit?
   l30 = (): number | undefined => undefined
 
-  l31 = (): number | undefined => this.schedule3?.l13()
+  l31 = (): number | undefined => this.schedule3?.l15()
 
   l32 = (): number =>
     sumFields([this.l27a(), this.l28(), this.l29(), this.l30(), this.l31()])

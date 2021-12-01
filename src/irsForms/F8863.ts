@@ -3,7 +3,7 @@ import { TaxPayer } from '../data'
 import Form, { FormTag } from './Form'
 
 // Not yet implemented
-export default class Schedule8863 extends Form {
+export default class F8863 extends Form {
   tp: TaxPayer
   tag: FormTag = 'f8863'
   sequenceIndex = 999
@@ -14,6 +14,7 @@ export default class Schedule8863 extends Form {
   }
 
   l8 = (): number | undefined => undefined
+  l19 = (): number | undefined => undefined
 
   fields = (): Field[] => []
 }
