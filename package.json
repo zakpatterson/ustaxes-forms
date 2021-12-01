@@ -11,7 +11,7 @@
     "typescript": "^4.4.4"
   },
   "scripts": {
-    "build": "node ./notice.js && ts-node ./scripts/setup.ts",
+    "build": "node ./notice.js && ts-node ./scripts/setup.ts && tsc -b .",
     "test": "ts-node ./scripts/setup.ts && jest",
     "test:report": "ts-node ./scripts/setup.ts && npm run test -- --coverage .",
     "lint": "eslint ./src --ext ts,js --max-warnings=0 && prettier -c .",
