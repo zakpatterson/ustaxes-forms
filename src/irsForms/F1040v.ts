@@ -24,9 +24,9 @@ export default class F1040V extends Form {
     }
 
     const result = [
-      Math.trunc(taxOwed), // dollars
       tp.primaryPerson?.ssid,
       tp.spouse?.ssid,
+      taxOwed.toFixed(2), // dollars
       tp.primaryPerson?.firstName,
       tp.primaryPerson?.lastName,
       tp.spouse?.firstName,

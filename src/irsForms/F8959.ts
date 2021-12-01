@@ -100,6 +100,9 @@ export default class F8959 extends Form {
   l23 = (): number | undefined => 0 // TODO: RRTA
   l24 = (): number => sumFields([this.l22(), this.l23()])
 
+  toSchedule2l11 = (): number => this.l18()
+  to1040l25c = (): number => this.l24()
+
   fields = (): Array<string | number | boolean | undefined> => {
     const tp = new TaxPayer(this.state.taxPayer)
     return [

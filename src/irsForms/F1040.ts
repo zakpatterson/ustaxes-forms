@@ -310,8 +310,9 @@ export default class F1040 extends Form {
   // calculation of the taxable amount of line 6a based on other income
   l6b = (): number | undefined =>
     this.socialSecurityBenefitsWorksheet?.taxableAmount()
+  l7Box = (): boolean => this.scheduleD === undefined
   l7 = (): number | undefined => this.scheduleD?.to1040()
-  l8 = (): number | undefined => this.schedule1?.l9()
+  l8 = (): number | undefined => this.schedule1?.l10()
   l9 = (): number =>
     sumFields([
       this.l1(),
@@ -324,23 +325,31 @@ export default class F1040 extends Form {
       this.l8()
     ])
 
-  l10a = (): number | undefined => this.schedule1?.l22()
-  l10b = (): number | undefined => undefined
-  l10c = (): number => sumFields([this.l10a(), this.l10b()])
+  l10 = (): number | undefined => this.schedule1?.to1040Line10()
 
-  l11 = (): number => Math.max(0, this.l9() - this.l10c())
+  l11 = (): number => Math.max(0, this.l9() - (this.l10() ?? 0))
 
-  l12 = (): number | undefined => {
+  l12a = (): number | undefined => {
     if (this.scheduleA !== undefined) {
       return this.scheduleA.deductions()
     }
     return this.standardDeduction()
   }
 
+  // TODO: Charitable contributions with standard deduction
+  l12b = (): number | undefined => undefined
+  l12c = (): number => sumFields([this.l12a(), this.l12b()])
+
   l13 = (): number | undefined => this.f8995?.deductions()
-  l14 = (): number => sumFields([this.l12(), this.l13()])
+  l14 = (): number => sumFields([this.l12c(), this.l13()])
 
   l15 = (): number => Math.max(0, this.l11() - this.l14())
+
+  f8814Box = (): boolean | undefined => this.f8814 !== undefined
+  f4972Box = (): boolean | undefined => this.f4972 !== undefined
+  // TODO: tax from other form?
+  otherFormBox = (): boolean => false
+  otherFormName = (): string | undefined => undefined
 
   computeTax = (): number | undefined => {
     if (
@@ -362,7 +371,6 @@ export default class F1040 extends Form {
   l17 = (): number | undefined => this.schedule2?.l3()
   l18 = (): number => sumFields([this.l16(), this.l17()])
 
-  // TODO
   l19 = (): number | undefined => this.childTaxCreditWorksheet?.l12()
   l20 = (): number | undefined => this.schedule3?.l7()
   l21 = (): number => sumFields([this.l19(), this.l20()])
@@ -539,22 +547,22 @@ export default class F1040 extends Form {
       this.l5b(),
       this.l6a(),
       this.l6b(),
-      this.scheduleD === undefined,
+      this.l7Box(),
       this.l7(),
       this.l8(),
       this.l9(),
-      this.l10a(),
-      this.l10b(),
-      this.l10c(),
+      this.l10(),
       this.l11(),
-      this.l12(),
+      this.l12a(),
+      this.l12b(),
+      this.l12c(),
       this.l13(),
       this.l14(),
       this.l15(),
-      this.f8814 !== undefined,
-      this.f4972 !== undefined,
-      false, // TODO: other tax form
-      '', // TODO: other tax form
+      this.f8814Box(),
+      this.f4972Box(),
+      this.otherFormBox(),
+      this.otherFormName(),
       this.l16(),
       this.l17(),
       this.l18(),

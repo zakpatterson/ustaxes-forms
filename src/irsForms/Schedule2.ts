@@ -29,8 +29,8 @@ export default class Schedule2 extends Form {
   l8 = (): number | undefined => undefined // TODO: additional tax on IRAs or other tax favored accoutns, form 5329
   l9 = (): number | undefined => undefined // TODO: household employment taxes, schedule H
   l10 = (): number | undefined => undefined // repayment of firsttime homebuyer credit, form 5405
-  l11 = (): number | undefined => this.f1040.f8959?.l24()
-  l12 = (): number | undefined => this.f1040.f8960?.l21()
+  l11 = (): number | undefined => this.f1040.f8959?.toSchedule2l11()
+  l12 = (): number | undefined => this.f1040.f8960?.toSchedule2l12()
   l13 = (): number | undefined => undefined // TODO: uncollected ss and medicare or rrta tax on tips or group-term life insurance, w-2, box 12
   l14 = (): number | undefined => undefined // TODO - interest on tax due on installment income from the sale of residential lots and timeshares
   l15 = (): number | undefined => undefined //interest on the deferred tax on gain from certain installment sales with a sales price over 150000.
@@ -130,6 +130,8 @@ export default class Schedule2 extends Form {
       this.l18(),
       this.l19()
     ])
+
+  to1040l23 = (): number => this.l21()
   // and on Form 1040 or 1040-SR, line 23, or Form 1040-NR, line 23b
 
   fields = (): Array<string | number | boolean | undefined> => {

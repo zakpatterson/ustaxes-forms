@@ -43,6 +43,7 @@ export const log1040Err = async (
     console.info('Got another error trying to log testing error')
     console.error(e)
     console.error('Giving up!')
+    throw e
   }
 }
 
@@ -63,7 +64,7 @@ export const with1040Pdfs = async (
     interruptAfterTimeLimit: 60 * 1000
   }
 ): Promise<void> =>
-  with1040Assert(
+  await with1040Assert(
     async ([, forms], info) => {
       const pdfs = await insertFormDataToPdfs(forms, localPDFs)
       f(pdfs, info)
@@ -73,24 +74,27 @@ export const with1040Pdfs = async (
   )
 
 export const with1040Property = (
-  f: (f1040: [F1040, Form[]], info: Information) => void
-): fc.IPropertyWithHooks<[Information]> =>
-  fc.property(arbitraries.information, (information) => {
-    const f1040Res = create1040(information)
-    if (isRight(f1040Res)) {
-      f(f1040Res.right, information)
-    } else {
-      const errs = f1040Res.left
-      expect(errs).not.toEqual([])
+  f: (f1040: [F1040, Form[]], info: Information) => Promise<void>
+): fc.IAsyncPropertyWithHooks<[Information]> =>
+  fc.asyncProperty(
+    arbitraries.information,
+    async (information): Promise<void> => {
+      const f1040Res = create1040(information)
+      if (isRight(f1040Res)) {
+        await f(f1040Res.right, information)
+      } else {
+        const errs = f1040Res.left
+        expect(errs).not.toEqual([])
+      }
     }
-  })
+  )
 
 /**
  * Run a property test on 1040 data.
  * **Must** be awaited.
  */
 export const with1040Assert = async (
-  f: (f1040: [F1040, Form[]], info: Information) => void,
+  f: (f1040: [F1040, Form[]], info: Information) => Promise<void>,
   logErr: (
     f1040: [F1040, Form[]],
     info: Information,
@@ -100,30 +104,28 @@ export const with1040Assert = async (
 ): Promise<void> => {
   let lastCallWith1040: [F1040, Form[]] | undefined
   let lastCallWithInfo: Information | undefined
-  try {
-    fc.assert(
-      with1040Property((f1040, info) => {
-        try {
-          f(f1040, info)
-        } catch (e) {
+  await fc
+    .assert(
+      with1040Property(async (f1040, info) => {
+        await f(f1040, info).catch((e) => {
           // Save the last failing test info for logging/
           lastCallWith1040 = f1040
           lastCallWithInfo = info
           // Hand it back to fc's assert.
           throw e
-        }
+        })
       }),
       params
     )
-  } catch (e) {
-    console.error('Trying to log errors.')
-    if (lastCallWith1040 !== undefined && lastCallWithInfo !== undefined) {
-      await logErr(lastCallWith1040 ?? [], lastCallWithInfo, e)
-    } else {
-      console.error('trying to log error but no info is available')
-    }
-    throw e
-  }
+    .catch(async (e) => {
+      console.error('Trying to log errors.')
+      if (lastCallWith1040 !== undefined && lastCallWithInfo !== undefined) {
+        await logErr(lastCallWith1040 ?? [], lastCallWithInfo, e)
+      } else {
+        console.error('trying to log error but no info is available')
+      }
+      throw e
+    })
 }
 
 interface Access<A, B> {
