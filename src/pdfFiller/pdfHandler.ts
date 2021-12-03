@@ -27,7 +27,7 @@ export const combinePdfs = (pdfFiles: PDFDocument[]): Promise<PDFDocument> => {
   return rest.reduce(async (l, r) => {
     const doc = await l
     const nextDoc = await flattenValues(r)
-    return await nextDoc
+    return await doc
       .copyPages(nextDoc, nextDoc.getPageIndices())
       .then((pgs) => {
         pgs.forEach((p) => doc.addPage(p))
