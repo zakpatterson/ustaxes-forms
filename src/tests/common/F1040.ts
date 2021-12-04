@@ -2,13 +2,13 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import fc, { Parameters } from 'fast-check'
-import { Information } from '../../data'
-import { insertFormDataToPdfs } from '../../irsForms'
+import { Information } from 'ustaxes-core/data'
+import { insertFormDataToPdfs } from 'ustaxes-core/irsForms'
 import F1040 from '../../irsForms/F1040'
 import Form from '../../irsForms/Form'
 import { create1040 } from '../../irsForms/Main'
-import { isRight } from '../../util'
-import * as arbitraries from '../arbitraries'
+import { isRight } from 'ustaxes-core/util'
+import * as arbitraries from 'ustaxes-core/tests/arbitraries'
 import { localPDFs } from './LocalForms'
 import fs from 'fs/promises'
 import path from 'path'
@@ -74,10 +74,11 @@ export const with1040Pdfs = async (
   )
 
 export const with1040Property = (
-  f: (f1040: [F1040, Form[]], info: Information) => Promise<void>
+  f: (f1040: [F1040, Form[]], info: Information) => Promise<void>,
+  year = 2020
 ): fc.IAsyncPropertyWithHooks<[Information]> =>
   fc.asyncProperty(
-    arbitraries.information,
+    new arbitraries.Arbitraries(year).information(),
     async (information): Promise<void> => {
       const f1040Res = create1040(information)
       if (isRight(f1040Res)) {

@@ -1,7 +1,7 @@
-import { TaxPayer as TP } from '../data'
+import { TaxPayer as TP } from 'ustaxes-core/data'
 import Form, { FormTag } from './Form'
 import { sumFields } from './util'
-import TaxPayer from '../data/TaxPayer'
+import TaxPayer from 'ustaxes-core/data/TaxPayer'
 import F8959 from './F8959'
 import F8960 from './F8960'
 

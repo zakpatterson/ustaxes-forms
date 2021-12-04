@@ -16,13 +16,12 @@
     "isolatedModules": true,
     "noEmit": false,
     "sourceMap": true,
-    "composite": true,
     "strictNullChecks": true,
-    "outDir": "./dist"
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "declaration": true
   },
-  "include": ["src/**/*", "src/**/*.json", "scripts/**/*"],
-  "exclude": ["**/node_modules", "**/.*/", "dist/**/*"],
-  "references": [],
+  "include": ["src/**/*.ts", "src/*.ts"],
   "ts-node": {
     "compilerOptions": {
       "module": "commonjs"

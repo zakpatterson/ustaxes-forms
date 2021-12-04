@@ -1,11 +1,11 @@
-import { Information } from '../data'
+import { Information } from 'ustaxes-core/data'
 import { sumFields } from './util'
-import TaxPayer from '../data/TaxPayer'
+import TaxPayer from 'ustaxes-core/data/TaxPayer'
 import Form, { FormTag } from './Form'
 import F4137 from './F4137'
 import F8919 from './F8919'
 import ScheduleSE from './ScheduleSE'
-import { fica } from '../data/federal'
+import { fica } from 'ustaxes-core/data/federal'
 
 export const needsF8959 = (state: Information): boolean => {
   const filingStatus = state.taxPayer.filingStatus

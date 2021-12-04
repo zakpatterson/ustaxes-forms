@@ -1,10 +1,6 @@
-import _ from 'lodash'
-import { PDFDocument } from 'pdf-lib'
 import F1040 from '../irsForms/F1040'
-import { fillPDF } from '../pdfFiller/fillPdf'
-import { combinePdfs, PDFDownloader } from '../pdfFiller/pdfHandler'
-import { State, Information } from '../data'
-import Form from './Form'
+import { State, Information } from 'ustaxes-core/data'
+import Form from 'ustaxes-core/stateForms/Form'
 import il1040 from './IL/IL1040'
 
 export const stateForm: {
@@ -27,24 +23,3 @@ export const createStateReturn = (
     }
   }
 }
-
-export const createStatePDF =
-  (forms: Form[]) =>
-  async (downloader: PDFDownloader): Promise<PDFDocument> => {
-    const filenames = forms.map(
-      (form) => `/states/${form.state}/${form.formName}.pdf`
-    )
-
-    const pdfs = filenames.map(downloader)
-
-    const filled: Array<Promise<PDFDocument>> = _.zipWith(
-      pdfs,
-      forms,
-      async (pdf, form) => {
-        fillPDF(await pdf, form.fields())
-        return pdf
-      }
-    )
-
-    return combinePdfs(await Promise.all(filled))
-  }
