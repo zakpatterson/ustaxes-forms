@@ -1,5 +1,5 @@
-import { Field } from '../pdfFiller'
-import { TaxPayer } from '../data'
+import { Field } from 'ustaxes-core/pdfFiller'
+import { TaxPayer } from 'ustaxes-core/data'
 import Form, { FormTag } from './Form'
 
 /**

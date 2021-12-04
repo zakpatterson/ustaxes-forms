@@ -1,7 +1,7 @@
-import { TaxPayer as TP } from '../data'
+import { TaxPayer as TP } from 'ustaxes-core/data'
 import Form, { FormTag } from './Form'
 import { sumFields } from './util'
-import TaxPayer from '../data/TaxPayer'
+import TaxPayer from 'ustaxes-core/data/TaxPayer'
 import F1040 from './F1040'
 
 export default class Schedule2 extends Form {

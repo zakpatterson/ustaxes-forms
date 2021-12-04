@@ -1,9 +1,9 @@
-import { TaxPayer } from '../data'
-import { Field } from '../pdfFiller'
-import Form, { FormTag } from './Form'
+import { Field } from 'ustaxes-core/pdfFiller'
+import Form, { FormTag } from 'ustaxes-core/irsForms/Form'
+import { TaxPayer } from 'ustaxes-core/data'
 
 /**
- * Impacts EIC, 1040 instructions L27 step 1 question 4
+ * Impacts EIC, 1040 instructions L27 step 1 squestion 4
  */
 export default class F2555 extends Form {
   tp: TaxPayer

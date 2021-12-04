@@ -1,4 +1,4 @@
-import { F1098e, FilingStatus } from '../../data'
+import { F1098e, FilingStatus } from 'ustaxes-core/data'
 import F1040 from '../../irsForms/F1040'
 import { sumFields } from '../util'
 

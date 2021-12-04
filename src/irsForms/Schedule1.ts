@@ -1,5 +1,5 @@
-import { Information } from '../data'
-import TaxPayer from '../data/TaxPayer'
+import { Information } from 'ustaxes-core/data'
+import TaxPayer from 'ustaxes-core/data/TaxPayer'
 import Form, { FormTag } from './Form'
 import ScheduleE from './ScheduleE'
 import { sumFields } from './util'

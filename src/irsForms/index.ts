@@ -1,12 +1,18 @@
 import { PDFDocument } from 'pdf-lib'
 import { create1040 } from '../irsForms/Main'
-import { Either, isLeft, isRight, right } from '../util'
+import { Either, isLeft, isRight, right } from 'ustaxes-core/util'
 import _ from 'lodash'
-import log from '../log'
-import { combinePdfs, getPdfs, PDFDownloader } from '../pdfFiller/pdfHandler'
-import { Information } from '../data'
+import log from 'ustaxes-core/log'
+import {
+  combinePdfs,
+  getPdfs,
+  PDFDownloader
+} from 'ustaxes-core/pdfFiller/pdfHandler'
+import { Information } from 'ustaxes-core/data'
+import Form from 'ustaxes-core/irsForms/Form'
 import { F1040Error } from './F1040'
-import Form from './Form'
+
+export { create1040 }
 
 export const insertFormDataToPdfs = async (
   forms: Form[],

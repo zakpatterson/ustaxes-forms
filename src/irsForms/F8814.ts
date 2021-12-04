@@ -1,7 +1,7 @@
-import { TaxPayer } from '../data'
-import log from '../log'
+import { TaxPayer } from 'ustaxes-core/data'
+import log from 'ustaxes-core/log'
 import Form, { FormTag } from './Form'
-import { Field } from '../pdfFiller'
+import { Field } from 'ustaxes-core/pdfFiller'
 
 const unimplemented = (message: string): void =>
   log.warn(`[Form 8814] unimplemented ${message}`)

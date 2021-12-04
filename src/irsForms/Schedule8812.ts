@@ -1,9 +1,9 @@
-import { FilingStatus } from '../data'
+import { FilingStatus } from 'ustaxes-core/data'
+import TaxPayer from 'ustaxes-core/data/TaxPayer'
 import F1040 from './F1040'
 import { sumFields } from './util'
 import Form, { FormTag } from './Form'
 import { CURRENT_YEAR } from '../data/federal'
-import TaxPayer from '../data/TaxPayer'
 
 const nextMultipleOf =
   (mul: number) =>

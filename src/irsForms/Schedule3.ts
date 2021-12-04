@@ -1,8 +1,8 @@
-import { Information, IncomeW2 } from '../data'
+import { Information, IncomeW2 } from 'ustaxes-core/data'
 import { sumFields } from './util'
 import Form, { FormTag } from './Form'
-import TaxPayer from '../data/TaxPayer'
-import { fica } from '../data/federal'
+import TaxPayer from 'ustaxes-core/data/TaxPayer'
+import { fica } from 'ustaxes-core/data/federal'
 import F1040 from './F1040'
 
 export const claimableExcessSSTaxWithholding = (w2s: IncomeW2[]): number => {
