@@ -10,7 +10,7 @@ import il1040 from './IL/IL1040'
 export const stateForm: {
   [K in State]?: (info: Information, f1040: F1040) => Form
 } = {
-  IL: il1040
+
 }
 
 export const createStateReturn = (
