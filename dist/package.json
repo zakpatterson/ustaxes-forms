@@ -9,7 +9,7 @@
     "pdf-lib": "^1.17.1",
     "ts-json-schema-generator": "^0.97.0",
     "typescript": "^4.4.4",
-    "ustaxes-core": "file:../../ustaxes-core/dist"
+    "ustaxes-core": "file:ustaxes-core/dist"
   },
   "scripts": {
     "build": "node ./notice.js && ts-node ./scripts/setup.ts",
