@@ -17,8 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version:
-          - '16'
+        node-version: ['16']
 
     steps:
     - name: Checkout repository and submodules
@@ -30,7 +29,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
       # installs dependencies
-    - run: npm ci
+    - run: npm ci --force
       # make sure we can build with tsc
     - run: npm run build
       # run tests
