@@ -34,10 +34,12 @@
   },
   "jest": {
     "testPathIgnorePatterns": [
-      "dist/*"
+      "dist/*",
+      "ustaxes-core/*"
     ],
     "coveragePathIgnorePatterns": [
-      "dist/*"
+      "dist/*",
+      "ustaxes-core/*"
     ]
   },
   "devDependencies": {
