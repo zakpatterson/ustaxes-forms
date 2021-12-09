@@ -11,8 +11,8 @@
     "ustaxes-core": "file:../../ustaxes-core/dist"
   },
   "scripts": {
-    "build": "node ./notice.js && tsc",
-    "test": "jest",
+    "build": "node ./notice.js && ts-node ./scripts/setup.ts && tsc",
+    "test": "ts-node ./scripts/setup.ts && jest",
     "test:report": "npm run test -- --coverage .",
     "lint": "eslint ./src --ext ts,js --max-warnings=0 && prettier -c .",
     "lint:fix": "eslint ./src --fix --ext ts,js && prettier --write .",
