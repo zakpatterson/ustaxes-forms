@@ -1,17 +1,11 @@
-import fc from 'fast-check'
 import { fica } from 'ustaxes-core/data/federal'
 import F1040 from '../irsForms/F1040'
 import F8959 from '../irsForms/F8959'
 import Form from '../irsForms/Form'
-import { create1040 } from '../irsForms/Main'
 import Schedule2 from '../irsForms/Schedule2'
 import Schedule3 from '../irsForms/Schedule3'
 import { displayRound } from '../irsForms/util'
-import { isRight } from 'ustaxes-core/util'
-import * as arbitraries from 'ustaxes-core/tests/arbitraries'
 import { with1040Assert } from './common/F1040'
-
-const A = new arbitraries.Arbitraries(2021)
 
 function hasSSRefund(f1040: F1040): boolean {
   const s3 = f1040.schedule3
@@ -39,7 +33,7 @@ function hasAttachment<FormType>(
 
 describe('fica', () => {
   it('should give refund SS tax overpayment only in some conditions', async () => {
-    await with1040Assert(async ([f1040, forms], info) => {
+    await with1040Assert(async ([f1040, forms]) => {
       if (f1040.validW2s().length <= 1) {
         // Should never give SS refund with 1 or fewer W2s
         expect(hasSSRefund(f1040)).toEqual(false)
@@ -66,7 +60,7 @@ describe('fica', () => {
   })
 
   it('should give SS refund based on filing status', async () => {
-    await with1040Assert(async ([f1040], info) => {
+    await with1040Assert(async ([f1040]) => {
       if (hasSSRefund(f1040)) {
         const s3l10 = f1040.schedule3?.l10()
         expect(displayRound(s3l10)).not.toBeUndefined()
@@ -82,7 +76,7 @@ describe('fica', () => {
   })
 
   it('should add Additional Medicare Tax form 8959', async () => {
-    await with1040Assert(async ([f1040, forms], info) => {
+    await with1040Assert(async ([f1040, forms]) => {
       if (f1040.info.taxPayer.filingStatus === undefined) {
         return
       }
@@ -105,7 +99,7 @@ describe('fica', () => {
   })
 
   it('should add Additional Medicare Tax based on filing status', async () => {
-    await with1040Assert(async ([f1040, forms], info) => {
+    await with1040Assert(async ([f1040]) => {
       if (f1040.info.taxPayer.filingStatus === undefined) {
         return
       }
