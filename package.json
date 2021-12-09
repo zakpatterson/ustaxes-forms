@@ -11,13 +11,13 @@
     "ustaxes-core": "file:../../ustaxes-core/dist"
   },
   "scripts": {
-    "build": "node ./notice.js && ts-node ./scripts/setup.ts && tsc -b .",
-    "test": "ts-node ./scripts/setup.ts && jest",
-    "test:report": "ts-node ./scripts/setup.ts && npm run test -- --coverage .",
+    "build": "node ./notice.js && tsc",
+    "test": "jest",
+    "test:report": "npm run test -- --coverage .",
     "lint": "eslint ./src --ext ts,js --max-warnings=0 && prettier -c .",
     "lint:fix": "eslint ./src --fix --ext ts,js && prettier --write .",
     "prettier": "prettier --write .",
-    "formgen": "ts-node ./scripts/formgen.ts",
+    "formgen": "node ./notice.js && ts-node ./scripts/formgen.ts",
     "prepare": "husky install"
   },
   "browserslist": {
