@@ -2,14 +2,17 @@ import { PDFDocument } from 'pdf-lib'
 import { create1040 } from '../irsForms/Main'
 import { Either, isLeft, isRight, right } from 'ustaxes-core/util'
 import log from 'ustaxes-core/log'
-import { combinePdfs, getPdfs, PDFDownloader } from 'ustaxes-core/pdfFiller/pdfHandler'
+import {
+  combinePdfs,
+  getPdfs,
+  PDFDownloader
+} from 'ustaxes-core/pdfFiller/pdfHandler'
 import { Information } from 'ustaxes-core/data'
 import { F1040Error } from './F1040'
 import Form from 'ustaxes-core/irsForms/Form'
 import _ from 'lodash'
 
 export { create1040 }
-
 
 export const insertFormDataToPdfs = async (
   forms: Form[],
@@ -21,7 +24,6 @@ export const insertFormDataToPdfs = async (
 
   return getPdfs(_.zipWith(forms, pdfs, (a, b) => [a, b]))
 }
-
 
 export const create1040PDFs =
   (state: Information) =>
@@ -57,7 +59,7 @@ export const create1040PDF =
       const pdf = await combinePdfs(pdfResult.right)
       const bytes = await pdf.save()
       return right(bytes)
-    } 
+    }
 
     throw new Error(pdfResult.left.join('\n'))
   }
