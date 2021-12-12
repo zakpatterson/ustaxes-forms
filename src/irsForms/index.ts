@@ -34,7 +34,7 @@ export const create1040PDFs =
       const f1040Result = create1040(state)
       // Get data and pdf links applicable to the model state
       if (isLeft(f1040Result)) {
-        return Promise.resolve(f1040Result)
+        return Promise.reject(f1040Result)
       }
 
       const [, forms] = f1040Result.right

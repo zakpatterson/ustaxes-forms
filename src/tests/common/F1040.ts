@@ -38,7 +38,6 @@ export const log1040Err = async (
       JSON.stringify(info, null, 2)
     )
     await fs.writeFile(path.resolve(saveDir, 'error.txt'), err.toString())
-    console.info(`Saved pdfs to ${saveDir}`)
   } catch (e) {
     console.info('Got another error trying to log testing error')
     console.error(e)
