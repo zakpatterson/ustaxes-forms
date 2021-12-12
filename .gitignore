@@ -37,3 +37,4 @@ yarn-error.log*
 !/dist/package.json
 !/dist/package-lock.json
 /tsconfig.tsbuildinfo
+/logs/
