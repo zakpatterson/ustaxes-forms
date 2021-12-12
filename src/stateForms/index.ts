@@ -23,10 +23,9 @@ export const createStateReturn = (
   const residency = info.stateResidencies[0]
   const form = stateForm[residency.state]?.call(undefined, info, f1040)
   if (form !== undefined) {
-    return right([form, ...form?.attachments()].sort(
-      (a, b) => a.formOrder - b.formOrder
-    ))
+    return right(
+      [form, ...form?.attachments()].sort((a, b) => a.formOrder - b.formOrder)
+    )
   }
   return left([StateFormError.StateFormsNotAvailable])
 }
-
