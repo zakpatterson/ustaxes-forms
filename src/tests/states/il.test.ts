@@ -25,11 +25,11 @@ const withStateReturn = (
 
   const [f1040] = f1040Result.right
   const stateReturn = createStateReturn(info, f1040)
-  if (stateReturn === undefined) {
-    fail('IL Return creation failed')
+  if (isLeft(stateReturn)) {
+    fail(stateReturn.left.join(';'))
   }
 
-  test(f1040Result.right, stateReturn)
+  test(f1040Result.right, stateReturn.right)
 }
 
 const A = new arbitraries.Arbitraries(2020)
