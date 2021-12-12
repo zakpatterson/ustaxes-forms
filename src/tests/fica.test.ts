@@ -7,6 +7,12 @@ import Schedule3 from '../irsForms/Schedule3'
 import { displayRound } from '../irsForms/util'
 import { with1040Assert } from './common/F1040'
 
+beforeAll(() => {
+  jest.spyOn(console, 'warn').mockImplementation(() => {
+    // do nothing
+  })
+})
+
 function hasSSRefund(f1040: F1040): boolean {
   const s3 = f1040.schedule3
   const l10 = s3?.l10()
@@ -113,8 +119,8 @@ describe('fica', () => {
         // Adds the right amount of additional tax
         const s2l8 = f1040.f8959?.l18()
         expect(s2l8).not.toBeUndefined()
-        expect(s2l8).toEqual(
-          Math.round(incomeOverThreshold * fica.additionalMedicareTaxRate)
+        expect(displayRound(s2l8)).toEqual(
+          displayRound(incomeOverThreshold * fica.additionalMedicareTaxRate)
         )
 
         // Also adds in the extra Medicare tax withheld to 1040 taxes already paid
@@ -129,7 +135,9 @@ describe('fica', () => {
           const f1040l25c = f1040.l25c()
           expect(f1040l25c).not.toBeUndefined()
           const additionalWithheld = medicareWithheld - regularWithholding
-          expect(f1040l25c).toEqual(additionalWithheld)
+          expect(displayRound(f1040l25c)).toEqual(
+            displayRound(additionalWithheld)
+          )
         } else {
           expect(displayRound(f1040.l25c())).toBeUndefined()
         }
