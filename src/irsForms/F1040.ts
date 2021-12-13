@@ -7,7 +7,7 @@ import {
   PlanType1099,
   Information
 } from 'ustaxes-core/data'
-import federalBrackets from 'ustaxes-core/data/federal'
+import federalBrackets from '../data/federal'
 import F4972 from './F4972'
 import F5695 from './F5695'
 import F8814 from './F8814'

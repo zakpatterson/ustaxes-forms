@@ -5,7 +5,7 @@ import Form, { FormTag } from './Form'
 import F4137 from './F4137'
 import F8919 from './F8919'
 import ScheduleSE from './ScheduleSE'
-import { fica } from 'ustaxes-core/data/federal'
+import { fica } from '../data/federal'
 
 export const needsF8959 = (state: Information): boolean => {
   const filingStatus = state.taxPayer.filingStatus

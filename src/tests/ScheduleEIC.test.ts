@@ -1,5 +1,6 @@
 /* eslint @typescript-eslint/no-empty-function: "off" */
-import * as federal from 'ustaxes-core/data/federal'
+
+import * as federal from '../data/federal'
 import { with1040Assert } from './common/F1040'
 
 beforeAll(async () => jest.spyOn(console, 'warn').mockImplementation(() => {}))

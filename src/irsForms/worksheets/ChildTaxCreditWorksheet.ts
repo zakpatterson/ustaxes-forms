@@ -1,7 +1,7 @@
 import F1040 from '../../irsForms/F1040'
 import { Dependent, FilingStatus } from 'ustaxes-core/data'
 import { sumFields } from '../../irsForms/util'
-import { QualifyingDependents } from 'ustaxes-core/data/federal'
+import { QualifyingDependents } from '../../data/federal'
 
 export default class ChildTaxCreditWorksheet {
   f1040: F1040

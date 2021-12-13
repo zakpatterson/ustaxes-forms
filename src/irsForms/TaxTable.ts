@@ -1,4 +1,4 @@
-import federalBrackets from 'ustaxes-core/data/federal'
+import federalBrackets from '../data/federal'
 import { FilingStatus } from 'ustaxes-core/data'
 import _ from 'lodash'
 
