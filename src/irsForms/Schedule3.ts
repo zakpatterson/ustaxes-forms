@@ -14,14 +14,10 @@ export const claimableExcessSSTaxWithholding = (w2s: IncomeW2[]): number => {
   // your return.
   if (
     w2s.length > 1 &&
-    w2s.map((w2) => w2.income).reduce((l, r) => l + r, 0) >
-      fica.maxIncomeSSTaxApplies &&
+    w2s.reduce((sum, w2) => sum + w2.income, 0) > fica.maxIncomeSSTaxApplies &&
     w2s.every((w2) => w2.ssWithholding <= fica.maxSSTax)
   ) {
-    return (
-      w2s.map((w2) => w2.ssWithholding).reduce((l, r) => l + r, 0) -
-      fica.maxSSTax
-    )
+    return w2s.reduce((sum, w2) => sum + w2.ssWithholding, 0) - fica.maxSSTax
   } else {
     return 0 // Cannot claim credit for excess SS tax
   }

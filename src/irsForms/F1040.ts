@@ -267,10 +267,7 @@ export default class F1040 extends Form {
   }
 
   totalQualifiedDividends = (): number =>
-    this.info
-      .f1099Divs()
-      .map((f) => f.form.qualifiedDividends)
-      .reduce((l, r) => l + r, 0)
+    this.info.f1099Divs().reduce((sum, f) => sum + f.form.qualifiedDividends, 0)
 
   totalGrossDistributionsFrom1099R = (planType: PlanType1099): number =>
     this.info

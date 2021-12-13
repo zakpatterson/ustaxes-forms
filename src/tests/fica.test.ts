@@ -46,8 +46,7 @@ describe('fica', () => {
       } else {
         const ssWithheld = f1040
           .validW2s()
-          .map((w2) => w2.ssWithholding)
-          .reduce((l, r) => l + r, 0)
+          .reduce((sum, w2) => sum + w2.ssWithholding, 0)
         if (
           f1040.wages() <= fica.maxIncomeSSTaxApplies ||
           f1040.validW2s().some((w2) => w2.ssWithholding > fica.maxSSTax) ||
@@ -74,8 +73,7 @@ describe('fica', () => {
 
         const ssWithheld = f1040
           .validW2s()
-          .map((w2) => w2.ssWithholding)
-          .reduce((l, r) => l + r, 0)
+          .reduce((sum, w2) => sum + w2.ssWithholding, 0)
         expect(s3l10).toEqual(ssWithheld - fica.maxSSTax)
       }
     })
@@ -126,8 +124,7 @@ describe('fica', () => {
         // Also adds in the extra Medicare tax withheld to 1040 taxes already paid
         const medicareWithheld = f1040
           .validW2s()
-          .map((w2) => w2.medicareWithholding)
-          .reduce((l, r) => l + r, 0)
+          .reduce((sum, w2) => sum + w2.medicareWithholding, 0)
         const regularWithholding = Math.round(
           fica.regularMedicareTaxRate * f1040.medicareWages()
         )

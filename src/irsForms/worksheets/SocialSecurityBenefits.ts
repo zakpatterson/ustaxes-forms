@@ -16,10 +16,7 @@ export default class SocialSecurityBenefitsWorksheet {
   }
 
   totalNetBenefits = (): number =>
-    this.state
-      .f1099ssas()
-      .map((f) => f.form.netBenefits)
-      .reduce((l, r) => l + r, 0)
+    this.state.f1099ssas().reduce((sum, f) => sum + f.form.netBenefits, 0)
 
   /* Enter the total amount from box 5 of all your Forms SSA-1099 and RRB-1099.
       Also enter this amount on Form 1040 or 1040-SR, line 6a

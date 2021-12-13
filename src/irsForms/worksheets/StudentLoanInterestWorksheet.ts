@@ -35,7 +35,7 @@ export default class StudentLoanInterestWorksheet {
   // Sum interest, but maximum of 2500 can be deducted
   l1 = (): number =>
     Math.min(
-      this.f1098es.map((f1098e) => f1098e.interest).reduce((l, r) => l + r, 0),
+      this.f1098es.reduce((sum, f) => sum + f.interest, 0),
       2500
     )
 

@@ -7,9 +7,7 @@ import F1040 from './F1040'
 
 export const needsF8960 = (state: Information): boolean => {
   const filingStatus = state.taxPayer.filingStatus
-  const totalW2Income = state.w2s
-    .map((w2) => w2.income)
-    .reduce((l, r) => l + r, 0)
+  const totalW2Income = state.w2s.reduce((sum, w2) => sum + w2.income, 0)
   return (
     filingStatus !== undefined &&
     netInvestmentIncomeTax.taxThreshold(filingStatus) < totalW2Income

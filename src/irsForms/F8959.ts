@@ -9,9 +9,7 @@ import { fica } from '../data/federal'
 
 export const needsF8959 = (state: Information): boolean => {
   const filingStatus = state.taxPayer.filingStatus
-  const totalW2Income = state.w2s
-    .map((w2) => w2.medicareIncome)
-    .reduce((l, r) => l + r, 0)
+  const totalW2Income = state.w2s.reduce((s, w2) => s + w2.medicareIncome, 0)
   return (
     filingStatus !== undefined &&
     fica.additionalMedicareTaxThreshold(filingStatus) < totalW2Income
@@ -53,7 +51,7 @@ export default class F8959 extends Form {
 
   // Part I: Additional Medicare Tax on Medicare Wages
   l1 = (): number =>
-    this.state.w2s.map((w2) => w2.medicareIncome).reduce((l, r) => l + r, 0)
+    this.state.w2s.reduce((sum, w2) => sum + w2.medicareIncome, 0)
 
   l2 = (): number | undefined => this.f4137?.l6()
   l3 = (): number | undefined => this.f8919?.l6()
