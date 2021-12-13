@@ -1,10 +1,10 @@
-import { Information, F1099BData, FilingStatus } from '../data'
+import { Information, F1099BData, FilingStatus } from 'ustaxes-core/data'
 import Form, { FormTag } from './Form'
-import TaxPayer from '../data/TaxPayer'
+import TaxPayer from 'ustaxes-core/data/TaxPayer'
 import { sumFields } from './util'
 import SDRateGainWorksheet from './worksheets/SDRateGainWorksheet'
 import SDUnrecaptured1250 from './worksheets/SDUnrecaptured1250'
-import InformationMethods from '../data/methods'
+import InformationMethods from 'ustaxes-core/data/methods'
 
 export default class ScheduleD extends Form {
   tag: FormTag = 'f1040sd'

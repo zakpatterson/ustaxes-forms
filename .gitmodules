@@ -1,0 +1,4 @@
+[submodule "ustaxes-core"]
+	path = ustaxes-core
+	url = https://github.com/ustaxes/ustaxes-core.git
+	branch = main

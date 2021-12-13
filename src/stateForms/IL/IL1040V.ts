@@ -1,8 +1,8 @@
-import Form from '../Form'
+import Form from 'ustaxes-core/stateForms/Form'
 import F1040 from '../../irsForms/F1040'
 import { IL1040 } from './IL1040'
-import { Field } from '../../pdfFiller'
-import { Information, State } from '../../data'
+import { Field } from 'ustaxes-core/pdfFiller'
+import { Information, State } from 'ustaxes-core/data'
 
 export default class IL1040V extends Form {
   info: Information

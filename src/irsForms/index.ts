@@ -1,12 +1,18 @@
 import { PDFDocument } from 'pdf-lib'
 import { create1040 } from '../irsForms/Main'
-import { Either, isLeft, isRight, right } from '../util'
-import _ from 'lodash'
-import log from '../log'
-import { combinePdfs, getPdfs, PDFDownloader } from '../pdfFiller/pdfHandler'
-import { Information } from '../data'
-import Form from './Form'
+import { Either, isLeft, isRight, right } from 'ustaxes-core/util'
+import log from 'ustaxes-core/log'
+import {
+  combinePdfs,
+  getPdfs,
+  PDFDownloader
+} from 'ustaxes-core/pdfFiller/pdfHandler'
+import { Information } from 'ustaxes-core/data'
 import { F1040Error } from './F1040'
+import Form from 'ustaxes-core/irsForms/Form'
+import _ from 'lodash'
+
+export { create1040 }
 
 export const insertFormDataToPdfs = async (
   forms: Form[],
@@ -28,12 +34,14 @@ export const create1040PDFs =
       const f1040Result = create1040(state)
       // Get data and pdf links applicable to the model state
       if (isLeft(f1040Result)) {
-        return Promise.resolve(f1040Result)
+        throw new Error(f1040Result.left.join('\n'))
       }
 
       const [, forms] = f1040Result.right
 
-      return right(await insertFormDataToPdfs(forms, downloader))
+      const inserted = await insertFormDataToPdfs(forms, downloader)
+
+      return right(inserted)
     }
 
     log.error('Attempt to create pdf with no data, will be empty')
@@ -46,11 +54,12 @@ export const create1040PDF =
     downloader: PDFDownloader
   ): Promise<Either<F1040Error[], Uint8Array>> => {
     const pdfResult = await create1040PDFs(state)(downloader)
+
     if (isRight(pdfResult)) {
       const pdf = await combinePdfs(pdfResult.right)
       const bytes = await pdf.save()
       return right(bytes)
-    } else {
-      return Promise.resolve(pdfResult)
     }
+
+    throw new Error(pdfResult.left.join('\n'))
   }

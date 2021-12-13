@@ -1,6 +1,6 @@
 import { PDFDocument } from 'pdf-lib'
-import { PDFDownloader } from '../../pdfFiller/pdfHandler'
-import fs from 'fs'
+import { PDFDownloader } from 'ustaxes-core/pdfFiller/pdfHandler'
+import fs from 'fs/promises'
 import path from 'path'
 
 const files: { [key: string]: Uint8Array } = {}
@@ -14,15 +14,7 @@ export const localPDFs: PDFDownloader = async (
     return PDFDocument.load(files[p].buffer)
   }
 
-  const pdfBytes: Uint8Array = await new Promise((resolve, reject) =>
-    fs.readFile(p, null, (err, data) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(data)
-      }
-    })
-  )
+  const pdfBytes = await fs.readFile(p)
 
   const pdf = await PDFDocument.load(pdfBytes.buffer)
   files[p] = pdfBytes

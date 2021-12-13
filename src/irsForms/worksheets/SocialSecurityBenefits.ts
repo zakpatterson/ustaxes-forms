@@ -1,8 +1,8 @@
-import { FilingStatus, TaxPayer, Information } from '../../data'
+import { FilingStatus, TaxPayer, Information } from 'ustaxes-core/data'
 import F1040 from '../F1040'
 import { sumFields } from '../util'
-import { SSBenefits } from '../../data/federal'
-import InformationMethods from '../../data/methods'
+import { SSBenefits } from 'ustaxes-core/data/federal'
+import InformationMethods from 'ustaxes-core/data/methods'
 
 export default class SocialSecurityBenefitsWorksheet {
   state: InformationMethods

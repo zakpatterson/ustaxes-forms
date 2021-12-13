@@ -1,7 +1,7 @@
-import Form, { FormMethods } from '../Form'
+import Form, { FormMethods } from 'ustaxes-core/stateForms/Form'
 import F1040 from '../../irsForms/F1040'
-import { Field } from '../../pdfFiller'
-import { IncomeW2, Information, PersonRole, State } from '../../data'
+import { Field } from 'ustaxes-core/pdfFiller'
+import { IncomeW2, Information, PersonRole, State } from 'ustaxes-core/data'
 import _ from 'lodash'
 
 type FormType =

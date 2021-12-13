@@ -1,4 +1,4 @@
-import { TaxPayer } from '../data'
+import { TaxPayer } from 'ustaxes-core/data'
 
 /**
  * Impacts EIC, 1040 instructions L27 step 1 question 4

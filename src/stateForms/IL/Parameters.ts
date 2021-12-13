@@ -1,4 +1,4 @@
-import { FilingStatus } from '../../data'
+import { FilingStatus } from 'ustaxes-core/data'
 
 const parameters = {
   exemptions: {

@@ -1,8 +1,13 @@
-import Form, { FormMethods } from '../Form'
+import Form, { FormMethods } from 'ustaxes-core/stateForms/Form'
 import F1040 from '../../irsForms/F1040'
-import { Field } from '../../pdfFiller'
+import { Field } from 'ustaxes-core/pdfFiller'
 import { sumFields } from '../../irsForms/util'
-import { AccountType, FilingStatus, Information, State } from '../../data'
+import {
+  AccountType,
+  FilingStatus,
+  Information,
+  State
+} from 'ustaxes-core/data'
 import parameters from './Parameters'
 import { IL1040scheduleileeic } from './IL1040ScheduleILEIC'
 import IL1040V from './IL1040V'

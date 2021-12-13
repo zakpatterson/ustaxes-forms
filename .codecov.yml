@@ -1,0 +1,34 @@
+coverage:
+  status:
+    project:
+      default:
+        # basic
+        target: 70%
+        threshold: 0%
+        base: auto
+        flags:
+          - unit
+        paths:
+          - 'src'
+        # advanced settings
+        branches:
+          - main-2020
+          - main-2021
+        if_ci_failed: ignore #error #success, failure, ignore
+        informational: true
+        only_pulls: false
+    patch:
+      default:
+        # basic
+        target: 70%
+        threshold: 0%
+        base: auto
+        # advanced
+        branches:
+          - main-2020
+          - main-2021
+        if_ci_failed: ignore #error #success, failure, ignore
+        informational: true
+        only_pulls: false
+        paths:
+          - 'src'
