@@ -8,14 +8,23 @@ import {
   Information
 } from 'ustaxes-core/data'
 import federalBrackets from '../data/federal'
+import F1040V from './F1040v'
+import F2441 from './F2441'
+import F2555 from './F2555'
+import F4136 from './F4136'
+import F4563 from './F4563'
+import F4797 from './F4797'
+import F4952 from './F4952'
 import F4972 from './F4972'
 import F5695 from './F5695'
 import F8814 from './F8814'
-import Schedule8863 from './F8863'
+import F8863 from './F8863'
 import F8888 from './F8888'
 import F8910 from './F8910'
 import F8936 from './F8936'
 import F8959, { needsF8959 } from './F8959'
+import F8960, { needsF8960 } from './F8960'
+import F8962 from './F8962'
 import F8995 from './F8995'
 import F8995A from './F8995A'
 import Schedule1 from './Schedule1'
@@ -23,24 +32,21 @@ import Schedule2 from './Schedule2'
 import Schedule3, { claimableExcessSSTaxWithholding } from './Schedule3'
 import Schedule8812 from './Schedule8812'
 import ScheduleA from './ScheduleA'
+import ScheduleB from './ScheduleB'
+import ScheduleC from './ScheduleC'
 import ScheduleD from './ScheduleD'
 import ScheduleE from './ScheduleE'
 import ScheduleEIC from './ScheduleEIC'
 import ScheduleR from './ScheduleR'
 import Form, { FormTag } from './Form'
 import { sumFields } from './util'
-import ScheduleB from './ScheduleB'
 import { computeOrdinaryTax } from './TaxTable'
 import SDQualifiedAndCapGains from './worksheets/SDQualifiedAndCapGains'
 import ChildTaxCreditWorksheet from './worksheets/ChildTaxCreditWorksheet'
 import SocialSecurityBenefitsWorksheet from './worksheets/SocialSecurityBenefits'
-import F4797 from './F4797'
 import StudentLoanInterestWorksheet from './worksheets/StudentLoanInterestWorksheet'
-import F1040V from './F1040v'
 import InformationMethods from 'ustaxes-core/data/methods'
 import _ from 'lodash'
-import F8960, { needsF8960 } from './F8960'
-import F4952 from './F4952'
 
 export enum F1040Error {
   filingStatusUndefined = 'Select a filing status',
@@ -60,22 +66,28 @@ export default class F1040 extends Form {
   schedule3?: Schedule3
   scheduleA?: ScheduleA
   scheduleB?: ScheduleB
+  scheduleC?: ScheduleC
   scheduleD?: ScheduleD
   scheduleE?: ScheduleE
   scheduleEIC?: ScheduleEIC
   scheduleR?: ScheduleR
   schedule8812?: Schedule8812
-  schedule8863?: Schedule8863
+  f2441?: F2441
+  f2555?: F2555
+  f4136?: F4136
+  f4563?: F4563
   f4797?: F4797
   f4952?: F4952
   f4972?: F4972
   f5695?: F5695
   f8814?: F8814
+  f8863?: F8863
   f8888?: F8888
   f8910?: F8910
   f8936?: F8936
   f8959?: F8959
   f8960?: F8960
+  f8962?: F8962
   f8995?: F8995 | F8995A
   studentLoanInterestWorksheet?: StudentLoanInterestWorksheet
   socialSecurityBenefitsWorksheet?: SocialSecurityBenefitsWorksheet
@@ -104,7 +116,6 @@ export default class F1040 extends Form {
       this.scheduleR,
       this.scheduleEIC,
       this.schedule8812,
-      this.schedule8863,
       this.f4797,
       this.f4952,
       this.f4972,
@@ -178,7 +189,7 @@ export default class F1040 extends Form {
     }
 
     if (this.f8959 !== undefined || this.f8960 !== undefined) {
-      this.schedule2 = new Schedule2(this.info.taxPayer, this.f8959, this.f8960)
+      this.schedule2 = new Schedule2(this.info.taxPayer, this)
     }
 
     if (
@@ -201,7 +212,7 @@ export default class F1040 extends Form {
     }
 
     const ws = new ChildTaxCreditWorksheet(this)
-    const schedule8812 = new Schedule8812(this.info.taxPayer, this)
+    const schedule8812 = new Schedule8812(this)
 
     if (
       this.info.taxPayer.dependents.some(
@@ -377,10 +388,9 @@ export default class F1040 extends Form {
     this.info.estimatedTaxes.reduce((res, et) => res + et.payment, 0)
 
   l27 = (): number | undefined => this.scheduleEIC?.credit(this) ?? 0
-
   l28 = (): number | undefined => this.schedule8812?.l15()
 
-  l29 = (): number | undefined => this.schedule8863?.l8()
+  l29 = (): number | undefined => this.f8863?.l8()
 
   // TODO: recovery rebate credit?
   l30 = (): number | undefined => undefined

@@ -1,4 +1,4 @@
-import { fica } from 'ustaxes-core/data/federal'
+import { fica } from '../data/federal'
 import F1040 from '../irsForms/F1040'
 import F8959 from '../irsForms/F8959'
 import Form from '../irsForms/Form'
@@ -65,8 +65,8 @@ describe('fica', () => {
     })
   })
 
-  it('should give SS refund based on filing status', () => {
-    with1040Assert(async ([f1040]) => {
+  it('should give SS refund based on filing status', async () => {
+    await with1040Assert(async ([f1040]) => {
       if (hasSSRefund(f1040)) {
         const s3l10 = f1040.schedule3?.l10()
         expect(displayRound(s3l10)).not.toBeUndefined()

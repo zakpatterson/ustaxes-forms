@@ -53,7 +53,7 @@ export default class F8959 extends Form {
 
   // Part I: Additional Medicare Tax on Medicare Wages
   l1 = (): number =>
-    this.state.w2s.reduce((sum, w2) => sum + w2.medicareIncome, 0)
+    this.state.w2s.map((w2) => w2.medicareIncome).reduce((l, r) => l + r, 0)
 
   l2 = (): number | undefined => this.f4137?.l6()
   l3 = (): number | undefined => this.f8919?.l6()
@@ -79,7 +79,7 @@ export default class F8959 extends Form {
   // (RRTA) Compensation
   l14 = (): number | undefined => undefined // TODO: RRTA in W2
   l15 = (): number => this.thresholdFromFilingStatus()
-  l16 = (): number => (this.l14() ?? 0) - this.l15()
+  l16 = (): number => Math.max(0, (this.l14() ?? 0) - this.l15())
 
   l17 = (): number => this.computeAdditionalMedicareTax(this.l12())
 

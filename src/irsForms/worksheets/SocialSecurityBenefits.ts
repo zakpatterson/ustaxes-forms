@@ -83,10 +83,10 @@ export default class SocialSecurityBenefitsWorksheet {
     If you are:
     Married filing jointly, enter $32,000
     Single, head of household, qualifying widow(er), or married filing
-    separately and you lived apart from your spouse for all of 2020,
+    separately and you lived apart from your spouse for all of the year,
     enter $25,000
     Married filing separately and you lived with your spouse at any time
-    in 2020, skip lines 8 through 15; multiply line 7 by 85% (0.85) and
+    in the year, skip lines 8 through 15; multiply line 7 by 85% (0.85) and
     enter the result on line 16. Then, go to line 17
   */
   l8 = (): number => {

@@ -19,9 +19,6 @@ export const createStateReturn = (
   info: Information,
   f1040: F1040
 ): Either<StateFormError[], Form[]> => {
-  if (info === undefined) {
-    throw new Error('Information is undefined')
-  }
   if (info.stateResidencies !== undefined && info.stateResidencies.length < 1) {
     return left([StateFormError.NoResidency])
   }
